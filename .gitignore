@@ -1,0 +1,24 @@
+# Environment variables & secrets (NEVER push to git!)
+.env
+.env.local
+
+# Databases
+*.db
+*.sqlite
+*.sqlite3
+
+# Python bytecode & caches
+__pycache__/
+*.py[cod]
+*$py.class
+.pytest_cache/
+
+# Zip & temporary archives
+*.zip
+*.tar.gz
+
+# IDE & OS files
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
