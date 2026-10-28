@@ -1,0 +1,72 @@
+/**
+ * APTI Design System Tokens
+ * Bảng màu nhận diện thương hiệu từ Huemint & Nguyên tắc thiết kế Nunito
+ */
+
+:root {
+  /* Color Palette */
+  --bg: #F8F6FA;                /* Mist */
+  --pri: #5348CD;               /* Indigo Pop */
+  --pri-hover: #463db8;
+  --pri-shadow: #3a30a8;        /* Đáy 3D nút chính */
+  --acc: #F54899;               /* Hot Pink */
+  --acc-hover: #e03282;
+  --acc-shadow: #c42f76;        /* Đáy 3D nút nhấn */
+  --ink: #1D1A3A;               /* Chữ chính */
+  --mut: #6B6788;               /* Chữ phụ / Muted */
+  --card: #FFFFFF;              /* Nền thẻ */
+  --card-glass: rgba(255, 255, 255, 0.88);
+  --line: #E6E2F0;              /* Viền thẻ & phân cách */
+  --pri-soft: #EBE9FB;          /* Indigo nhạt */
+  --acc-soft: #FDE4EF;          /* Hồng nhạt */
+  --ok: #1FA97A;                /* Mint - Đúng / Thành công */
+  --ok-soft: #D9F5EA;
+  --ok-shadow: #157956;
+  --warn: #F5A524;              /* Amber - Cảnh báo / Khá */
+  --warn-soft: #FEF3D6;
+  --danger: #E53935;
+  --danger-soft: #FFEBEE;
+
+  /* Typography */
+  --font-main: 'Nunito', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  
+  /* Radii */
+  --radius-sm: 10px;
+  --radius-md: 16px;
+  --radius-lg: 24px;
+  --radius-xl: 32px;
+  --radius-pill: 9999px;
+
+  /* Shadows */
+  --shadow-subtle: 0 4px 18px rgba(83, 72, 205, 0.06);
+  --shadow-card: 0 10px 30px rgba(29, 26, 58, 0.06);
+  --shadow-hover: 0 16px 40px rgba(83, 72, 205, 0.12);
+  --shadow-btn-pri: 0 4px 0 var(--pri-shadow);
+  --shadow-btn-acc: 0 4px 0 var(--acc-shadow);
+  --shadow-btn-ok: 0 4px 0 var(--ok-shadow);
+
+  /* Spacing */
+  --wrap-max: 1140px;
+  --nav-height: 72px;
+
+  /* Transitions */
+  --transition-fast: 0.18s cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-normal: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Dark Theme Support */
+[data-theme="dark"] {
+  --bg: #14122A;
+  --ink: #F3F1FB;
+  --mut: #A29FC2;
+  --card: #1D1A3A;
+  --card-glass: rgba(29, 26, 58, 0.88);
+  --line: #322E5A;
+  --pri-soft: #2A2660;
+  --acc-soft: #4A1F37;
+  --ok-soft: #16362C;
+  --warn-soft: #3D2D16;
+  --shadow-subtle: 0 4px 20px rgba(0, 0, 0, 0.35);
+  --shadow-card: 0 12px 36px rgba(0, 0, 0, 0.45);
+  --shadow-hover: 0 18px 45px rgba(83, 72, 205, 0.28);
+}

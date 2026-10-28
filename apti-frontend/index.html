@@ -1,0 +1,752 @@
+<!DOCTYPE html>
+<html lang="vi" data-theme="light">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>APTI – Luyện Aptitude Test Nhẹ Nhàng Như Chơi | Tiếng Việt Cho Người Mới Bắt Đầu MT</title>
+  
+  <!-- SEO Meta Tags -->
+  <meta name="description" content="Nền tảng luyện thi Aptitude Test tiếng Việt dành cho người mới bắt đầu Management Trainee. Luyện tập Numerical, Logical, Verbal dễ hiểu, có lời giải chi tiết và chi phí hợp lý.">
+  <meta name="keywords" content="aptitude test, management trainee, mt, numerical reasoning, logical reasoning, verbal reasoning, luyện thi mt tiếng việt, apti">
+  <meta name="author" content="APTI Team">
+  <link rel="icon" type="image/svg+xml" href="assets/icons/3-apti-app-icon.svg">
+
+  <!-- Google Fonts: Nunito -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+
+  <!-- Stylesheets -->
+  <link rel="stylesheet" href="css/design-tokens.css">
+  <link rel="stylesheet" href="css/components.css">
+  <link rel="stylesheet" href="css/layout.css">
+  <link rel="stylesheet" href="css/animations.css">
+</head>
+<body>
+
+  <!-- Hidden SVG Symbols for Logo -->
+  <svg width="0" height="0" style="position:absolute; display:none;" aria-hidden="true">
+    <symbol id="apti-symbol" viewBox="0 0 100 100">
+      <path d="M18 86 L50 16 L82 86" fill="none" stroke="currentColor" stroke-width="15" stroke-linecap="round" stroke-linejoin="round"/>
+      <path d="M24 58 H76 M50 58 V86" fill="none" stroke="var(--acc)" stroke-width="15" stroke-linecap="round" stroke-linejoin="round"/>
+      <path d="M84 6 L87.5 14 L96 15 L89.5 21 L91.5 29.5 L84 25 L76.5 29.5 L78.5 21 L72 15 L80.5 14Z" fill="var(--acc)"/>
+    </symbol>
+    <symbol id="icon-check" viewBox="0 0 24 24">
+      <polyline points="20 6 9 17 4 12" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+    </symbol>
+  </svg>
+
+  <!-- ================= 1. SITE HEADER ================= -->
+  <header class="site-header" id="site-header">
+    <div class="wrap nav-container">
+      <!-- Logo -->
+      <a href="#trang-chu" class="brand-logo" aria-label="APTI Trang chủ">
+        <div class="brand-icon-box">
+          <svg width="28" height="28" style="color:#FFFFFF; flex:none;">
+            <use href="#apti-symbol"/>
+          </svg>
+        </div>
+        <span>APTI</span>
+      </a>
+
+      <!-- Navigation Links -->
+      <nav aria-label="Thanh điều hướng chính">
+        <ul class="nav-menu" id="nav-menu">
+          <li><a href="#trang-chu" class="nav-link active">Trang chủ</a></li>
+          <li><a href="#tai-lieu" class="nav-link">Bộ tài liệu</a></li>
+          <li><a href="#phong-luyen-tap" class="nav-link">Luyện đề trực tuyến</a></li>
+          <li><a href="#lo-trinh-mt" class="nav-link">Lộ trình MT</a></li>
+          <li><a href="#goi-luyen-tap" class="nav-link">Gói học</a></li>
+          <li><a href="#ve-chung-minh" class="nav-link">Về chúng mình</a></li>
+          <li><a href="#faq" class="nav-link">FAQ</a></li>
+        </ul>
+      </nav>
+
+      <!-- Header Actions -->
+      <div class="nav-actions">
+        <button class="theme-toggle-btn" id="theme-toggle-btn" aria-label="Chuyển đổi giao diện sáng tối">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+        </button>
+        <a href="#phong-luyen-tap" class="btn b-pri b-sm">
+          <span>Thi thử ngay</span>
+        </a>
+        <button class="mobile-menu-btn" id="mobile-menu-btn" aria-label="Mở menu điện thoại">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <!-- ================= 2. HERO SECTION ================= -->
+    <section id="trang-chu" style="padding-top: 36px; padding-bottom: 50px;">
+      <div class="wrap">
+        <div class="hero-card">
+          <div class="hero-text-content">
+            <div class="hero-badge-pill">
+              Nền tảng Aptitude Test tiếng Việt cho người mới bắt đầu <b>MT</b>
+            </div>
+            <h1 class="hero-title">
+              Luyện aptitude test<br>nhẹ nhàng như chơi.
+            </h1>
+            <p class="hero-subtitle">
+              Bạn đang chuẩn bị cho kỳ tuyển dụng Management Trainee hay bối rối với những bộ đề toàn tiếng Anh? APTI giúp bạn hiểu bản chất, rèn tư duy và tự tin vượt qua vòng test với chi phí cực kỳ nhẹ ví!
+            </p>
+            <div class="hero-buttons">
+              <a href="#phong-luyen-tap" class="btn b-acc b-lg" id="hero-btn-quiz">
+                <span>Làm thử bài test miễn phí</span>
+              </a>
+              <a href="#tai-lieu" class="btn b-ghost" style="background:rgba(255,255,255,0.18); color:#FFFFFF; border:none;">
+                <span>Khám phá bộ tài liệu</span>
+              </a>
+            </div>
+            <div class="hero-quote-note">
+              <i>Bắt đầu từ con số 0 cũng chẳng sao. Mỗi câu làm được là một bước tiến rồi!</i>
+            </div>
+          </div>
+
+          <!-- Interactive 3D Mascot Widget -->
+          <div class="hero-mascot-box">
+            <div class="hero-mascot-img-wrap float-anim">
+              <img src="assets/mascot/emtee-transparent.png" alt="Linh vật Em Tee 3D" class="hero-mascot-img" id="hero-mascot-img" title="Bấm vào để tương tác cùng Em Tee">
+            </div>
+            <div class="hero-mascot-speech bubble-pop" id="mascot-speech-hero">
+              Chào bạn! Mình là Em Tee. Hôm nay mình làm bài logic nhé?
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= 3. PAIN POINTS SECTION ================= -->
+    <section id="kho-khan" style="padding-top: 30px;">
+      <div class="wrap">
+        <div class="section-head">
+          <span class="section-tag">Thấu hiểu người học</span>
+          <h2 class="section-title">Bạn có đang gặp những tình huống này?</h2>
+          <p class="section-desc">Hầu hết các ứng viên Management Trainee khi mới bắt đầu đều gặp những trở ngại này trước ngưỡng cửa kỳ thi tuyển dụng.</p>
+        </div>
+
+        <div class="grid g-4">
+          <div class="card card-hover pain-card">
+            <div class="pain-num">01</div>
+            <h3 class="pain-title">Đề tiếng Anh khó tiếp cận</h3>
+            <p class="pain-desc">Chưa kịp tính toán số liệu hay suy luận logic thì đã mất quá nhiều thời gian chỉ để tra từ điển và hiểu thuật ngữ trong đề.</p>
+          </div>
+
+          <div class="card card-hover pain-card">
+            <div class="pain-num">02</div>
+            <h3 class="pain-title">Chưa biết bắt đầu từ đâu</h3>
+            <p class="pain-desc">Numerical, Logical, Verbal, Abstract... hàng chục dạng bài nghe choáng ngợp, không biết nên tập trung vào phần nào trước.</p>
+          </div>
+
+          <div class="card card-hover pain-card">
+            <div class="pain-num">03</div>
+            <h3 class="pain-title">Chi phí khóa học cao</h3>
+            <p class="pain-desc">Nhiều khóa luyện thi MT quốc tế có chi phí tiền triệu. Bạn muốn ôn luyện chất lượng nhưng ngân sách sinh viên có hạn.</p>
+          </div>
+
+          <div class="card card-hover pain-card">
+            <div class="pain-num">04</div>
+            <h3 class="pain-title">Làm đề không hiểu bản chất</h3>
+            <p class="pain-desc">Làm xong chỉ biết đúng hay sai theo đáp án A, B, C mà không có lời giải thích tư duy để áp dụng cho các câu tương tự.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= 4. VALUE PILLARS SECTION ================= -->
+    <section id="gia-tri" style="background: var(--pri-soft); border-radius: var(--radius-xl); margin: 20px 0;">
+      <div class="wrap">
+        <div class="section-head">
+          <span class="section-tag" style="background: #FFFFFF;">Giải pháp từ APTI</span>
+          <h2 class="section-title">APTI có gì dành cho bạn?</h2>
+          <p class="section-desc">Chúng mình đơn giản hóa toàn bộ hành trình ôn thi năng lực thành trải nghiệm học tập nhẹ nhàng, trực quan và hiệu quả.</p>
+        </div>
+
+        <div class="grid g-3">
+          <div class="card card-hover pillar-card">
+            <div class="pillar-num">01</div>
+            <div class="pillar-content">
+              <h3>Hiểu dạng đề trước khi làm</h3>
+              <p>Làm quen tường tận các nhóm câu hỏi thường gặp trong kỳ thi MT, nắm chắc tiêu chí đánh giá và kỹ năng cần có.</p>
+            </div>
+          </div>
+
+          <div class="card card-hover pillar-card">
+            <div class="pillar-num">02</div>
+            <div class="pillar-content">
+              <h3>Tài liệu 100% tiếng Việt</h3>
+              <p>Giải thích kiến thức, hướng dẫn tư duy và trình bày lời giải bằng tiếng Việt để bạn tập trung trọn vẹn vào cách giải quyết vấn đề.</p>
+            </div>
+          </div>
+
+          <div class="card card-hover pillar-card">
+            <div class="pillar-num">03</div>
+            <div class="pillar-content">
+              <h3>Luyện tập theo tốc độ riêng</h3>
+              <p>Đi từ những câu hỏi cơ bản, làm quen từng dạng đề rồi tăng dần độ khó khi bạn đã tích lũy đủ sự tự tin.</p>
+            </div>
+          </div>
+
+          <div class="card card-hover pillar-card">
+            <div class="pillar-num">04</div>
+            <div class="pillar-content">
+              <h3>Chi phí cực kỳ dễ chịu</h3>
+              <p>Các gói học được thiết kế gọn gàng, thực chất và vừa vặn với túi tiền của học sinh, sinh viên cũng như người mới đi làm.</p>
+            </div>
+          </div>
+
+          <div class="card card-hover pillar-card" style="grid-column: span 2;">
+            <div class="pillar-num">05</div>
+            <div class="pillar-content">
+              <h3>Lời giải để hiểu, không chỉ biết đáp án</h3>
+              <p>Quan trọng không phải là chọn bừa trúng đáp án, mà là hiểu rõ vì sao phương án đó đúng và nắm vững chiến thuật xử lý các bẫy câu hỏi thường gặp.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= 5. PATHWAYS SECTION ================= -->
+    <section id="lo-trinh-khoi-dau">
+      <div class="wrap">
+        <div class="section-head">
+          <span class="section-tag">Lộ trình học tập</span>
+          <h2 class="section-title">Bạn muốn bắt đầu từ đâu cùng APTI?</h2>
+          <p class="section-desc">Lựa chọn hướng đi phù hợp nhất với giai đoạn hiện tại của bạn.</p>
+        </div>
+
+        <div class="grid g-3">
+          <div class="card card-hover pathway-card">
+            <span class="chip" style="margin-bottom: 14px;">Nhập môn</span>
+            <h3 class="pathway-title">Mới làm quen với Test?</h3>
+            <p class="pathway-desc">Bắt đầu với tài liệu nhập môn, tìm hiểu các dạng đề phổ biến và thử sức với những câu hỏi cơ bản nhất.</p>
+            <a href="#tai-lieu" class="btn b-out" data-preview-pack="pack-foundation">
+              Khám phá kiến thức nền tảng
+            </a>
+          </div>
+
+          <div class="card card-hover pathway-card" style="border: 2px solid var(--pri);">
+            <span class="chip a" style="margin-bottom: 14px;">Luyện đề</span>
+            <h3 class="pathway-title">Muốn luyện có hệ thống?</h3>
+            <p class="pathway-desc">Chọn bộ đề theo từng nhóm kỹ năng, luyện tập thường xuyên có bấm giờ và tham khảo lời giải chi tiết.</p>
+            <a href="#phong-luyen-tap" class="btn b-pri">
+              Vào phòng luyện tập ngay
+            </a>
+          </div>
+
+          <div class="card card-hover pathway-card">
+            <span class="chip g" style="margin-bottom: 14px;">Chuyên sâu</span>
+            <h3 class="pathway-title">Chuẩn bị kỳ thi MT?</h3>
+            <p class="pathway-desc">Xây dựng kế hoạch ôn tập 30 ngày, làm quen áp lực thời gian và tập trung cải thiện các kỹ năng còn yếu.</p>
+            <a href="#lo-trinh-mt" class="btn b-acc">
+              Xem lộ trình ôn tập MT
+            </a>
+          </div>
+        </div>
+
+        <!-- Banner khích lệ -->
+        <div class="card" style="margin-top: 36px; background: linear-gradient(135deg, #FAF8FE 0%, #F1EEFD 100%); border-color: rgba(83,72,205,0.2); text-align: center; padding: 36px;">
+          <h3 style="font-size: 24px; font-weight: 900; margin: 0 0 10px; color: var(--pri);">
+            Không cần giỏi ngay từ đầu. Chỉ cần bắt đầu đúng cách cùng APTI!
+          </h3>
+          <p style="color: var(--mut); font-weight: 600; max-width: 720px; margin: 0 auto 20px;">
+            Dù bạn đang là học sinh, sinh viên hay đã đi làm, tụi mình tin rằng ai cũng có thể từng bước làm quen với aptitude test khi có tài liệu phù hợp và phương pháp rõ ràng để chinh phục các chương trình MT.
+          </p>
+          <a href="#phong-luyen-tap" class="btn b-pri b-lg">
+            <span>Bắt đầu hành trình của bạn</span>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= 6. DOCUMENTS SECTION ================= -->
+    <section id="tai-lieu">
+      <div class="wrap">
+        <div class="section-head">
+          <span class="section-tag">Tài liệu biên soạn</span>
+          <h2 class="section-title">Bộ Tài Liệu Aptitude Test Của APTI</h2>
+          <p class="section-desc">Từ chưa biết gì đến biết cách làm bài. Bộ cẩm nang thực chiến chắt lọc bí quyết vượt qua các kỳ đánh giá năng lực khắt khe.</p>
+        </div>
+
+        <div class="grid g-3" style="margin-bottom: 40px;">
+          <div class="card card-hover" style="display:flex; flex-direction:column; justify-content:space-between;">
+            <div>
+              <div class="row" style="justify-content:space-between; margin-bottom:12px;">
+                <span class="chip">Nhập môn</span>
+                <span style="font-weight:700; font-size:13px; color:var(--mut);">45 Trang PDF</span>
+              </div>
+              <h3 style="font-size:20px; font-weight:900; margin:0 0 10px;">Tài liệu Nhập môn Tiếng Việt</h3>
+              <p style="color:var(--mut); font-size:14.5px; font-weight:600; margin-bottom:18px;">
+                Giải thích toàn diện các dạng bài Numerical, Logical, Verbal bằng tiếng Việt chuẩn mực, loại bỏ rào cản ngoại ngữ.
+              </p>
+            </div>
+            <button class="btn b-soft" data-preview-pack="pack-foundation">
+              <span>Xem mục lục & đọc thử</span>
+            </button>
+          </div>
+
+          <div class="card card-hover" style="display:flex; flex-direction:column; justify-content:space-between; border-color:var(--pri);">
+            <div>
+              <div class="row" style="justify-content:space-between; margin-bottom:12px;">
+                <span class="chip a">Trọng tâm</span>
+                <span style="font-weight:700; font-size:13px; color:var(--mut);">60 Trang + Video</span>
+              </div>
+              <h3 style="font-size:20px; font-weight:900; margin:0 0 10px;">Cẩm nang Xử lý Số liệu MT</h3>
+              <p style="color:var(--mut); font-size:14.5px; font-weight:600; margin-bottom:18px;">
+                Mẹo tính nhẩm tỷ suất lợi nhuận, chi phí biên, đọc biểu đồ kinh doanh và các phím tắt bấm máy tính cực nhanh.
+              </p>
+            </div>
+            <button class="btn b-pri" data-preview-pack="pack-numerical">
+              <span>Xem mục lục & đọc thử</span>
+            </button>
+          </div>
+
+          <div class="card card-hover" style="display:flex; flex-direction:column; justify-content:space-between;">
+            <div>
+              <div class="row" style="justify-content:space-between; margin-bottom:12px;">
+                <span class="chip g">Nâng cao</span>
+                <span style="font-weight:700; font-size:13px; color:var(--mut);">50 Trang + 100 Bài</span>
+              </div>
+              <h3 style="font-size:20px; font-weight:900; margin:0 0 10px;">Giải đề Logic & Verbal MT</h3>
+              <p style="color:var(--mut); font-size:14.5px; font-weight:600; margin-bottom:18px;">
+                Bộ đề giải mã True/False/Cannot Say, bài toán Venn logic và chiến thuật Skimming nắm bắt ý chính báo cáo kinh tế.
+              </p>
+            </div>
+            <button class="btn b-soft" data-preview-pack="pack-logical-verbal">
+              <span>Xem mục lục & đọc thử</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Chi tiết quyền lợi & đối tượng -->
+        <div class="grid g-2">
+          <div class="card">
+            <h3 style="font-size:20px; font-weight:900; margin:0 0 14px; color:var(--ink);">
+              Bạn nhận được gì từ bộ tài liệu?
+            </h3>
+            <ul class="feature-list" style="margin:0;">
+              <li class="feature-item"><span class="check-icon"><svg width="12" height="12"><use href="#icon-check"/></svg></span> Tài liệu tổng hợp đầy đủ các dạng bài aptitude test chuẩn SHL/Korn Ferry.</li>
+              <li class="feature-item"><span class="check-icon"><svg width="12" height="12"><use href="#icon-check"/></svg></span> Câu hỏi luyện tập được biên soạn và trình bày khoa học bằng tiếng Việt.</li>
+              <li class="feature-item"><span class="check-icon"><svg width="12" height="12"><use href="#icon-check"/></svg></span> Đáp án kèm lời giải chi tiết giải thích rõ vì sao đáp án đó đúng.</li>
+              <li class="feature-item"><span class="check-icon"><svg width="12" height="12"><use href="#icon-check"/></svg></span> Gợi ý phương pháp tư duy, cách nhận diện bẫy và tối ưu thời gian.</li>
+              <li class="feature-item"><span class="check-icon"><svg width="12" height="12"><use href="#icon-check"/></svg></span> Thuận tiện để tự học và ôn tập theo lịch cá nhân mọi lúc mọi nơi.</li>
+            </ul>
+          </div>
+
+          <div class="card">
+            <h3 style="font-size:20px; font-weight:900; margin:0 0 14px; color:var(--ink);">
+              Bộ tài liệu dành cho những ai?
+            </h3>
+            <ul class="feature-list" style="margin:0;">
+              <li class="feature-item"><span class="check-icon"><svg width="12" height="12"><use href="#icon-check"/></svg></span> Học sinh, sinh viên lần đầu làm quen với Aptitude Test.</li>
+              <li class="feature-item"><span class="check-icon"><svg width="12" height="12"><use href="#icon-check"/></svg></span> Sinh viên năm cuối chuẩn bị ứng tuyển Management Trainee hoặc Intern.</li>
+              <li class="feature-item"><span class="check-icon"><svg width="12" height="12"><use href="#icon-check"/></svg></span> Người mới đi làm muốn chuẩn bị cho các vòng kiểm tra năng lực doanh nghiệp.</li>
+              <li class="feature-item"><span class="check-icon"><svg width="12" height="12"><use href="#icon-check"/></svg></span> Bất kỳ ai muốn rèn luyện tư duy logic, xử lý số liệu và đọc hiểu phản biện.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= 7. LIVE INTERACTIVE PRACTICE STUDIO ================= -->
+    <section id="phong-luyen-tap" class="quiz-section">
+      <div class="wrap">
+        <div class="section-head">
+          <span class="section-tag">Luyện đề trực tuyến</span>
+          <h2 class="section-title">Luyện Đề Trực Tuyến, Hiểu Bài Ngay Sau Mỗi Lần Thử</h2>
+          <p class="section-desc">Không chỉ đọc tài liệu, bạn có thể thực chiến làm bài với đồng hồ bấm giờ và nhận phân tích năng lực chi tiết từ Em Tee!</p>
+        </div>
+
+        <div class="quiz-container">
+          <!-- Quiz Toolbar -->
+          <div class="quiz-toolbar">
+            <div class="tabs" id="quiz-category-tabs">
+              <!-- Rendered via JS -->
+            </div>
+
+            <div class="quiz-timer-badge" id="quiz-timer-badge" title="Thời gian còn lại của bài test">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="flex:none;"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+              <span id="quiz-timer-display">10:00</span>
+            </div>
+          </div>
+
+          <!-- Active Quiz Play Box -->
+          <div id="quiz-play-box">
+            <div class="quiz-main-layout">
+              <!-- Left: Question & Options -->
+              <div class="quiz-question-box">
+                <div>
+                  <div class="question-meta">
+                    <span class="chip" id="question-progress-text">Câu 1/8</span>
+                    <span class="chip a" id="question-category-chip">Số học • Cơ bản</span>
+                  </div>
+
+                  <p class="question-text" id="question-content-text">
+                    Đang tải câu hỏi thi thử...
+                  </p>
+
+                  <div id="question-options-list">
+                    <!-- Options list dynamically rendered -->
+                  </div>
+
+                  <!-- Hint Box (Toggled on button click) -->
+                  <div id="quiz-hint-box" style="display:none; margin-top:14px;"></div>
+                </div>
+
+                <!-- Navigation Controls -->
+                <div class="question-nav-controls">
+                  <div class="row">
+                    <button class="btn b-out b-sm" id="btn-quiz-prev">
+                      ← Câu trước
+                    </button>
+                    <button class="btn b-soft b-sm" id="btn-quiz-hint">
+                      Xem gợi ý tư duy
+                    </button>
+                  </div>
+
+                  <div class="row">
+                    <button class="btn b-pri b-sm" id="btn-quiz-next">
+                      Câu tiếp →
+                    </button>
+                    <button class="btn b-acc" id="btn-quiz-submit" style="display:none;">
+                      Nộp bài thi
+                    </button>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Right: Em Tee Mascot Companion & Step Map -->
+              <div class="quiz-sidebar">
+                <div class="quiz-mascot-guide">
+                  <img src="assets/mascot/emtee-transparent.png" alt="Em Tee đồng hành" id="quiz-mascot-img" class="float-anim">
+                  <div class="bubble bubble-pop" id="mascot-speech-quiz" style="font-size:13.5px; padding:10px 14px;">
+                    Đọc kỹ đề và chọn đáp án bạn thấy phù hợp nhất nhé.
+                  </div>
+                </div>
+
+                <div>
+                  <label>Sơ đồ tiến độ câu hỏi:</label>
+                  <div class="quiz-progress-map" id="quiz-steps-map">
+                    <!-- Numbers 1, 2, 3... -->
+                  </div>
+                </div>
+
+                <!-- Daily Reminder Feature -->
+                <div class="card" style="padding:14px; background:var(--pri-soft);">
+                  <div class="row" style="justify-content:space-between;">
+                    <span style="font-weight:800; font-size:13.5px; color:var(--ink);">Nhắc luyện mỗi ngày</span>
+                    <div class="tog on" id="daily-reminder-toggle" title="Bật/Tắt nhắc nhở luyện tập"></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Quiz Results & Analytics Dashboard (Shown after submit) -->
+          <div id="results-dashboard" class="results-dashboard">
+            <!-- Dynamically injected after submit -->
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= 8. TEST HISTORY TABLE SECTION ================= -->
+    <section id="lich-su-thi" style="padding-top: 20px;">
+      <div class="wrap">
+        <div class="section-head" style="margin-bottom: 24px;">
+          <span class="section-tag">Nhật ký làm bài</span>
+          <h2 class="section-title">Nhật Ký Làm Bài Của Bạn</h2>
+          <p class="section-desc">Theo dõi sự tiến bộ qua từng ngày để nhận diện điểm mạnh và hoàn thiện kỹ năng còn thiếu.</p>
+        </div>
+
+        <div class="card tw">
+          <table>
+            <thead>
+              <tr>
+                <th>Bài test</th>
+                <th>Ngày</th>
+                <th>Điểm</th>
+                <th>Thời gian</th>
+                <th>Trạng thái</th>
+              </tr>
+            </thead>
+            <tbody id="test-history-tbody">
+              <!-- Rendered via JS -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= 9. ROADMAP SECTION ================= -->
+    <section id="lo-trinh-mt">
+      <div class="wrap">
+        <div class="section-head">
+          <span class="section-tag">Lộ trình 30 ngày</span>
+          <h2 class="section-title">Kế Hoạch 30 Ngày Chinh Phục Kỳ Thi MT</h2>
+          <p class="section-desc">Một lộ trình phân tầng khoa học giúp bạn tích lũy kiến thức từng bước, không bị quá tải.</p>
+        </div>
+
+        <div class="card" style="margin-bottom: 24px; padding: 24px;">
+          <div class="row" style="justify-content:space-between; margin-bottom: 12px;">
+            <b style="font-size:18px;">Tiến độ hoàn thành lộ trình MT của bạn</b>
+            <span class="chip">2/5 Chặng đã mở khóa</span>
+          </div>
+          <div class="bar">
+            <div style="width: 40%;"></div>
+          </div>
+        </div>
+
+        <div class="grid g-3">
+          <div class="card card-hover" style="border-left: 6px solid var(--ok);">
+            <div class="row" style="justify-content:space-between; margin-bottom:10px;">
+              <span class="chip g">Chặng 1 • Ngày 1-3</span>
+              <span style="font-size:13px; font-weight:800; color:var(--ok);">Đã hoàn thành</span>
+            </div>
+            <h3 style="font-size:18px; font-weight:800; margin:0 0 8px;">Khởi động & Giải mã đề thi</h3>
+            <p style="color:var(--mut); font-size:14px; font-weight:600; margin:0;">
+              Làm quen các thuật ngữ Numerical, Logical, Verbal bằng tiếng Việt, nắm bắt cấu trúc đề SHL/Korn Ferry.
+            </p>
+          </div>
+
+          <div class="card card-hover" style="border-left: 6px solid var(--pri);">
+            <div class="row" style="justify-content:space-between; margin-bottom:10px;">
+              <span class="chip">Chặng 2 • Ngày 4-10</span>
+              <span style="font-size:13px; font-weight:800; color:var(--pri);">Đang học</span>
+            </div>
+            <h3 style="font-size:18px; font-weight:800; margin:0 0 8px;">Xử lý Số liệu Thần tốc</h3>
+            <p style="color:var(--mut); font-size:14px; font-weight:600; margin:0;">
+              Thành thạo kỹ năng tính nhẩm %, tỷ suất lợi nhuận, đọc biểu đồ doanh số và mẹo giải quyết câu hỏi trong 45 giây.
+            </p>
+          </div>
+
+          <div class="card card-hover" style="border-left: 6px solid var(--line);">
+            <div class="row" style="justify-content:space-between; margin-bottom:10px;">
+              <span class="chip w">Chặng 3 • Ngày 11-18</span>
+              <span style="font-size:13px; font-weight:800; color:var(--mut);">Chưa mở</span>
+            </div>
+            <h3 style="font-size:18px; font-weight:800; margin:0 0 8px;">Tư duy Logic & Biểu đồ Venn</h3>
+            <p style="color:var(--mut); font-size:14px; font-weight:600; margin:0;">
+              Phá vỡ các bẫy ngụy biện, thuần thục logic điều kiện If-Then và sắp xếp chuỗi suy luận thứ bậc.
+            </p>
+          </div>
+
+          <div class="card card-hover" style="border-left: 6px solid var(--line);">
+            <div class="row" style="justify-content:space-between; margin-bottom:10px;">
+              <span class="chip">Chặng 4 • Ngày 19-25</span>
+              <span style="font-size:13px; font-weight:800; color:var(--mut);">Chưa mở</span>
+            </div>
+            <h3 style="font-size:18px; font-weight:800; margin:0 0 8px;">Đọc hiểu Ngôn ngữ Phản biện</h3>
+            <p style="color:var(--mut); font-size:14px; font-weight:600; margin:0;">
+              Chiến thuật True / False / Cannot Say, kỹ thuật Skimming & Scanning văn bản báo cáo kinh tế song ngữ.
+            </p>
+          </div>
+
+          <div class="card card-hover" style="border-left: 6px solid var(--acc); grid-column: span 2;">
+            <div class="row" style="justify-content:space-between; margin-bottom:10px;">
+              <span class="chip a">Chặng 5 • Ngày 26-30</span>
+              <span style="font-size:13px; font-weight:800; color:var(--acc);">Chặng về đích</span>
+            </div>
+            <h3 style="font-size:18px; font-weight:800; margin:0 0 8px;">Thi thử Áp lực Thời gian Thực (Mock Test)</h3>
+            <p style="color:var(--mut); font-size:14px; font-weight:600; margin:0;">
+              Thử thách 5 bộ đề tổng hợp 20 câu dưới áp lực đồng hồ đếm ngược mô phỏng kỳ thi MT thực tế, nhận báo cáo điểm mạnh/yếu để bứt phá.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= 10. PRICING PLANS SECTION ================= -->
+    <section id="goi-luyen-tap">
+      <div class="wrap">
+        <div class="section-head">
+          <span class="section-tag">Học phí</span>
+          <h2 class="section-title">Chọn Lộ Trình Phù Hợp Với Bạn</h2>
+          <p class="section-desc">Học tập với chi phí dễ chịu, minh bạch và không phát sinh bất kỳ khoản phí ẩn nào.</p>
+        </div>
+
+        <div class="pricing-grid">
+          <!-- Gói 7 Ngày -->
+          <div class="card card-hover pricing-card">
+            <span class="chip" style="align-self:flex-start; margin-bottom:14px;">Khởi động</span>
+            <h3 style="font-size:24px; font-weight:900; margin:0 0 6px;">Gói 7 Ngày</h3>
+            <p style="color:var(--mut); font-size:14px; font-weight:600; margin:0;">Làm quen và khởi động</p>
+            
+            <div class="price-box">
+              <span class="price-num">99.000</span>
+              <span class="price-unit">VNĐ / 7 ngày</span>
+              <div style="text-decoration:line-through; color:var(--mut); font-size:13px; font-weight:700;">149.000 VNĐ</div>
+            </div>
+
+            <ul class="feature-list">
+              <li class="feature-item"><span class="check-icon"><svg width="12" height="12"><use href="#icon-check"/></svg></span> Trọn bộ tài liệu tiếng Việt giải mã các dạng bài</li>
+              <li class="feature-item"><span class="check-icon"><svg width="12" height="12"><use href="#icon-check"/></svg></span> Luyện tập online hơn 150+ câu hỏi cơ bản</li>
+              <li class="feature-item"><span class="check-icon"><svg width="12" height="12"><use href="#icon-check"/></svg></span> Đáp án & Lời giải chi tiết từng bước</li>
+              <li class="feature-item"><span class="check-icon"><svg width="12" height="12"><use href="#icon-check"/></svg></span> Đồng hồ bấm giờ mô phỏng áp lực phòng thi</li>
+              <li class="feature-item"><span class="check-icon"><svg width="12" height="12"><use href="#icon-check"/></svg></span> Báo cáo phân tích điểm mạnh yếu sơ bộ</li>
+            </ul>
+
+            <button class="btn b-out" data-plan-id="starter-7d" style="width:100%;">
+              Bắt đầu gói 7 ngày
+            </button>
+          </div>
+
+          <!-- Gói 30 Ngày Master MT -->
+          <div class="card card-hover pricing-card featured">
+            <div class="pricing-featured-ribbon">Phổ biến nhất</div>
+            <span class="chip a" style="align-self:flex-start; margin-bottom:14px;">MT Master</span>
+            <h3 style="font-size:24px; font-weight:900; margin:0 0 6px;">Gói 30 Ngày</h3>
+            <p style="color:var(--mut); font-size:14px; font-weight:600; margin:0;">Luyện tập có kế hoạch & Chinh phục MT</p>
+            
+            <div class="price-box">
+              <span class="price-num" style="color:var(--acc);">249.000</span>
+              <span class="price-unit">VNĐ / 30 ngày</span>
+              <div style="text-decoration:line-through; color:var(--mut); font-size:13px; font-weight:700;">399.000 VNĐ</div>
+            </div>
+
+            <ul class="feature-list">
+              <li class="feature-item"><span class="check-icon"><svg width="12" height="12"><use href="#icon-check"/></svg></span> <b>Tất cả quyền lợi của Gói 7 ngày</b></li>
+              <li class="feature-item"><span class="check-icon"><svg width="12" height="12"><use href="#icon-check"/></svg></span> Hơn 600+ câu hỏi phân tầng từ cơ bản đến nâng cao</li>
+              <li class="feature-item"><span class="check-icon"><svg width="12" height="12"><use href="#icon-check"/></svg></span> 5 đề Mock Test chuẩn định dạng SHL/Korn Ferry</li>
+              <li class="feature-item"><span class="check-icon"><svg width="12" height="12"><use href="#icon-check"/></svg></span> Video mẹo tư duy & bẫy đề thi từ cựu MT</li>
+              <li class="feature-item"><span class="check-icon"><svg width="12" height="12"><use href="#icon-check"/></svg></span> Theo dõi tiến độ chi tiết trên Dashboard</li>
+              <li class="feature-item"><span class="check-icon"><svg width="12" height="12"><use href="#icon-check"/></svg></span> Cập nhật đề mới liên tục theo mùa tuyển dụng</li>
+            </ul>
+
+            <button class="btn b-acc" data-plan-id="master-30d" style="width:100%;">
+              Đăng ký bứt phá ngay
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= 11. ABOUT US SECTION ================= -->
+    <section id="ve-chung-minh">
+      <div class="wrap">
+        <div class="about-banner">
+          <div>
+            <span class="section-tag">Về chúng mình</span>
+            <h2 style="font-size:32px; font-weight:900; line-height:1.25; margin:12px 0 16px; color:var(--ink);">
+              Làm aptitude test dễ tiếp cận hơn, bắt đầu từ những điều nhỏ nhất.
+            </h2>
+            <p style="color:var(--mut); font-size:15px; font-weight:600; line-height:1.6; margin-bottom:16px;">
+              Tụi mình bắt đầu từ một vấn đề khá quen thuộc: khi muốn tìm hiểu aptitude test, bạn có thể bắt gặp rất nhiều tài liệu tiếng Anh, nhiều dạng đề chưa từng thấy và không ít thuật ngữ khó hiểu nếu mới bắt đầu.
+            </p>
+            <p style="color:var(--mut); font-size:15px; font-weight:600; line-height:1.6; margin-bottom:24px;">
+              Tụi mình muốn tạo ra một nơi mà bạn có thể tìm hiểu kiến thức, luyện tập và hiểu cách giải từng dạng bài bằng tiếng Việt, với chi phí dễ tiếp cận hơn. Không cần phải là người giỏi toán hay có kinh nghiệm từ trước, APTI giúp bạn có điểm khởi đầu rõ ràng để việc ôn luyện trở nên bớt áp lực hơn.
+            </p>
+            <div class="row" style="gap:16px;">
+              <span class="chip g">Thân thiện</span>
+              <span class="chip">Khích lệ</span>
+              <span class="chip a">Không áp lực</span>
+            </div>
+          </div>
+
+          <div style="text-align:center;">
+            <img src="assets/mascot/emtee-mascot-alt.jpg" alt="Đội ngũ APTI & Em Tee" style="width:100%; max-width:380px; border-radius:var(--radius-xl); box-shadow:0 16px 40px rgba(83,72,205,0.18);">
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= 12. FAQ SECTION ================= -->
+    <section id="faq">
+      <div class="wrap">
+        <div class="section-head">
+          <span class="section-tag">Câu hỏi thường gặp</span>
+          <h2 class="section-title">Câu Hỏi Thường Gặp</h2>
+          <p class="section-desc">Mọi điều bạn cần biết trước khi bắt đầu hành trình ôn luyện cùng APTI.</p>
+        </div>
+
+        <div style="max-width: 800px; margin: 0 auto;" id="faq-accordion-container">
+          <!-- Rendered via JS -->
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- ================= 13. FOOTER ================= -->
+  <footer class="site-footer">
+    <div class="wrap">
+      <div class="footer-top">
+        <div>
+          <a href="#trang-chu" class="brand-logo" style="margin-bottom:14px;">
+            <div class="brand-icon-box">
+              <svg width="28" height="28" style="color:#FFFFFF; flex:none;">
+                <use href="#apti-symbol"/>
+              </svg>
+            </div>
+            <span>APTI</span>
+          </a>
+          <p style="color:var(--mut); font-weight:600; font-size:14.5px; line-height:1.6; margin:0 0 16px; max-width:320px;">
+            Cùng bạn làm quen với Aptitude Test bằng tiếng Việt. Nền tảng luyện thi năng lực dành cho người mới bắt đầu Management Trainee.
+          </p>
+          <div class="row" style="gap:10px;">
+            <span class="chip">Dễ hiểu</span>
+            <span class="chip a">Chủ động</span>
+          </div>
+        </div>
+
+        <div class="footer-links-col">
+          <h4>Về APTI</h4>
+          <ul>
+            <li><a href="#ve-chung-minh">Về chúng mình</a></li>
+            <li><a href="#lo-trinh-mt">Lộ trình MT</a></li>
+            <li><a href="#goi-luyen-tap">Các gói học phí</a></li>
+            <li><a href="#faq">Câu hỏi thường gặp</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-links-col">
+          <h4>Tài liệu & Đề thi</h4>
+          <ul>
+            <li><a href="#tai-lieu">Tài liệu nhập môn</a></li>
+            <li><a href="#phong-luyen-tap">Luyện đề Numerical</a></li>
+            <li><a href="#phong-luyen-tap">Luyện đề Logical</a></li>
+            <li><a href="#phong-luyen-tap">Luyện đề Verbal</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-links-col">
+          <h4>Hỗ trợ học viên</h4>
+          <ul>
+            <li><a href="#lien-he" id="footer-contact-link">Liên hệ hỗ trợ: support@apti.vn</a></li>
+            <li><a href="#dieu-khoan">Điều khoản sử dụng</a></li>
+            <li><a href="#chinh-sach">Chính sách bảo mật</a></li>
+            <li><a href="#hoan-tien">Chính sách hoàn tiền</a></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="footer-disclaimer">
+        <b>Lưu ý:</b> Tài liệu và website được xây dựng nhằm mục đích học tập và luyện tập cá nhân. Nội dung không đại diện cho, cũng không được bảo trợ bởi các đơn vị tuyển dụng hoặc đơn vị tổ chức bài thi thực tế, trừ khi có thông báo chính thức.
+      </div>
+
+      <div class="footer-bottom">
+        <div>© 2026 APTI. Mọi bản quyền được bảo lưu. Thiết kế theo tiêu chuẩn Brand Identity APTI.</div>
+        <div>Đồng hành cùng bạn chinh phục kỳ thi Management Trainee.</div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ================= 14. MODAL DIALOG CONTAINER ================= -->
+  <div class="modal-overlay" id="app-modal-overlay" role="dialog" aria-modal="true">
+    <div class="modal-content">
+      <div class="row" style="justify-content:flex-end; margin-bottom:12px;">
+        <button class="btn b-ghost b-sm" id="modal-close-btn" aria-label="Đóng cửa sổ" style="padding:6px 12px; border-radius:50%; font-size:16px;">
+          ✕
+        </button>
+      </div>
+      <div id="modal-content-body">
+        <!-- Content dynamically injected -->
+      </div>
+    </div>
+  </div>
+
+  <!-- Scripts -->
+  <script type="module" src="js/main.js"></script>
+</body>
+</html>

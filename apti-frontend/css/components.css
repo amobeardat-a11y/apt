@@ -1,0 +1,604 @@
+/**
+ * APTI UI Components
+ * Nút bo tròn đáy 3D, Card mềm, Mascot speech bubble, Vòng tròn tiến độ, v.v.
+ */
+
+/* ----------------- Nút bấm (3D Tactile Buttons) ----------------- */
+.btn {
+  font-family: var(--font-main);
+  font-weight: 800;
+  font-size: 15px;
+  border: none;
+  border-radius: var(--radius-pill);
+  padding: 12px 26px;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  transition: all var(--transition-fast);
+  text-decoration: none;
+  line-height: 1.2;
+  user-select: none;
+  white-space: nowrap;
+}
+
+.btn:active:not(:disabled) {
+  transform: translateY(3px);
+}
+
+.b-pri {
+  background: var(--pri);
+  color: #FFFFFF;
+  box-shadow: var(--shadow-btn-pri);
+}
+.b-pri:hover:not(:disabled) {
+  background: var(--pri-hover);
+}
+.b-pri:active:not(:disabled) {
+  box-shadow: 0 1px 0 var(--pri-shadow);
+}
+
+.b-acc {
+  background: var(--acc);
+  color: #FFFFFF;
+  box-shadow: var(--shadow-btn-acc);
+}
+.b-acc:hover:not(:disabled) {
+  background: var(--acc-hover);
+}
+.b-acc:active:not(:disabled) {
+  box-shadow: 0 1px 0 var(--acc-shadow);
+}
+
+.b-ok {
+  background: var(--ok);
+  color: #FFFFFF;
+  box-shadow: var(--shadow-btn-ok);
+}
+.b-ok:hover:not(:disabled) {
+  background: #188c64;
+}
+.b-ok:active:not(:disabled) {
+  box-shadow: 0 1px 0 var(--ok-shadow);
+}
+
+.b-out {
+  background: transparent;
+  color: var(--pri);
+  border: 2px solid var(--pri);
+}
+.b-out:hover:not(:disabled) {
+  background: var(--pri-soft);
+}
+
+.b-soft {
+  background: var(--pri-soft);
+  color: var(--pri);
+}
+.b-soft:hover:not(:disabled) {
+  filter: brightness(0.96);
+}
+
+.b-ghost {
+  background: transparent;
+  color: var(--ink);
+  border: 1px solid var(--line);
+}
+.b-ghost:hover:not(:disabled) {
+  background: var(--pri-soft);
+  color: var(--pri);
+}
+
+.b-dis, .btn:disabled {
+  background: var(--line) !important;
+  color: var(--mut) !important;
+  box-shadow: none !important;
+  cursor: not-allowed;
+  transform: none !important;
+  opacity: 0.75;
+}
+
+.b-sm {
+  padding: 8px 16px;
+  font-size: 13px;
+}
+
+.b-lg {
+  padding: 15px 32px;
+  font-size: 17px;
+  font-weight: 900;
+}
+
+.b-icon {
+  width: 42px;
+  height: 42px;
+  padding: 0;
+  border-radius: 50%;
+  flex: none;
+}
+
+/* ----------------- Thẻ (Cards) ----------------- */
+.card {
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-lg);
+  padding: 24px;
+  box-shadow: var(--shadow-subtle);
+  transition: transform var(--transition-normal), box-shadow var(--transition-normal), border-color var(--transition-normal);
+}
+
+.card-hover:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-hover);
+  border-color: rgba(83, 72, 205, 0.25);
+}
+
+.card-highlight {
+  border: 2px solid var(--pri);
+  position: relative;
+  overflow: hidden;
+}
+
+.card-highlight::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 6px;
+  background: linear-gradient(90deg, var(--pri), var(--acc));
+}
+
+/* ----------------- Nhãn (Chips & Badges) ----------------- */
+.chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 5px 14px;
+  border-radius: var(--radius-pill);
+  font-size: 12px;
+  font-weight: 800;
+  background: var(--pri-soft);
+  color: var(--pri);
+  line-height: 1.3;
+}
+
+.chip.a {
+  background: var(--acc-soft);
+  color: var(--acc);
+}
+
+.chip.g {
+  background: var(--ok-soft);
+  color: var(--ok);
+}
+
+.chip.w {
+  background: var(--warn-soft);
+  color: var(--warn);
+}
+
+/* ----------------- Mascot Em Tee Bubble ----------------- */
+.mascot-container {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  position: relative;
+}
+
+.bubble {
+  background: var(--card);
+  border: 2px solid var(--line);
+  border-radius: 20px 20px 20px 4px;
+  padding: 14px 18px;
+  font-weight: 700;
+  font-size: 15px;
+  line-height: 1.45;
+  color: var(--ink);
+  box-shadow: var(--shadow-subtle);
+  position: relative;
+  transition: all var(--transition-fast);
+}
+
+.bubble::before {
+  content: '';
+  position: absolute;
+  bottom: -9px;
+  left: -2px;
+  width: 14px;
+  height: 14px;
+  background: var(--card);
+  border-left: 2px solid var(--line);
+  border-bottom: 2px solid var(--line);
+  border-bottom-left-radius: 6px;
+  transform: rotate(-15deg);
+}
+
+/* ----------------- Vòng tròn kết quả (Circular Progress Ring) ----------------- */
+.ring {
+  --p: 70;
+  --c: var(--pri);
+  width: 124px;
+  height: 124px;
+  border-radius: 50%;
+  background: conic-gradient(var(--c) calc(var(--p) * 1%), var(--pri-soft) 0);
+  display: grid;
+  place-items: center;
+  margin: 0 auto 12px;
+  box-shadow: 0 4px 14px rgba(83, 72, 205, 0.1);
+  transition: background 0.8s ease-in-out;
+}
+
+.ring span {
+  width: 96px;
+  height: 96px;
+  border-radius: 50%;
+  background: var(--card);
+  display: grid;
+  place-items: center;
+  font-weight: 900;
+  font-size: 26px;
+  color: var(--ink);
+}
+
+.ctr {
+  text-align: center;
+  font-weight: 800;
+  font-size: 15px;
+  color: var(--ink);
+}
+
+.ctr small {
+  display: block;
+  color: var(--mut);
+  font-weight: 700;
+  font-size: 13px;
+  margin-top: 3px;
+}
+
+/* ----------------- Thanh tiến độ (Progress Bar) ----------------- */
+.bar {
+  height: 14px;
+  border-radius: var(--radius-pill);
+  background: var(--pri-soft);
+  overflow: hidden;
+  position: relative;
+}
+
+.bar > div {
+  height: 100%;
+  border-radius: var(--radius-pill);
+  background: linear-gradient(90deg, var(--pri), var(--acc));
+  transition: width 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* ----------------- Nút gạt Toggle Switch ----------------- */
+.tog {
+  width: 52px;
+  height: 30px;
+  border-radius: var(--radius-pill);
+  background: var(--line);
+  position: relative;
+  cursor: pointer;
+  flex: none;
+  transition: background var(--transition-fast);
+}
+
+.tog::after {
+  content: "";
+  position: absolute;
+  top: 3px;
+  left: 3px;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background: #FFFFFF;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+  transition: left var(--transition-fast);
+}
+
+.tog.on {
+  background: var(--pri);
+}
+
+.tog.on::after {
+  left: 25px;
+}
+
+/* ----------------- Tabs chuyển đổi ----------------- */
+.tabs {
+  display: inline-flex;
+  background: var(--pri-soft);
+  border-radius: var(--radius-pill);
+  padding: 5px;
+  gap: 4px;
+  flex-wrap: wrap;
+}
+
+.tabs button {
+  font-family: var(--font-main);
+  font-weight: 800;
+  font-size: 14px;
+  border: 0;
+  background: transparent;
+  color: var(--pri);
+  padding: 8px 20px;
+  border-radius: var(--radius-pill);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.tabs button.on {
+  background: var(--pri);
+  color: #FFFFFF;
+  box-shadow: 0 3px 8px rgba(83, 72, 205, 0.25);
+}
+
+/* ----------------- Form Controls ----------------- */
+.inp {
+  font-family: var(--font-main);
+  font-size: 15px;
+  font-weight: 600;
+  width: 100%;
+  padding: 13px 16px;
+  border-radius: var(--radius-md);
+  border: 2px solid var(--line);
+  background: var(--card);
+  color: var(--ink);
+  transition: border-color var(--transition-fast), box-shadow var(--transition-fast);
+}
+
+.inp:focus {
+  outline: none;
+  border-color: var(--pri);
+  box-shadow: 0 0 0 4px var(--pri-soft);
+}
+
+label {
+  font-size: 13px;
+  font-weight: 800;
+  display: block;
+  margin-bottom: 6px;
+  color: var(--ink);
+}
+
+/* ----------------- Lựa chọn trắc nghiệm Quiz Option ----------------- */
+.opt {
+  display: flex;
+  gap: 14px;
+  align-items: center;
+  padding: 14px 18px;
+  border: 2px solid var(--line);
+  border-radius: var(--radius-md);
+  margin-bottom: 10px;
+  cursor: pointer;
+  font-weight: 700;
+  font-size: 15px;
+  color: var(--ink);
+  background: var(--card);
+  transition: all var(--transition-fast);
+  user-select: none;
+}
+
+.opt:hover:not(.locked) {
+  border-color: var(--pri);
+  background: var(--pri-soft);
+  transform: translateX(4px);
+}
+
+.opt i {
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  border: 2px solid var(--mut);
+  flex: none;
+  display: grid;
+  place-items: center;
+  font-size: 11px;
+  color: #FFFFFF;
+  transition: all var(--transition-fast);
+}
+
+.opt.sel {
+  border-color: var(--pri);
+  background: var(--pri-soft);
+  box-shadow: 0 4px 12px rgba(83, 72, 205, 0.12);
+}
+
+.opt.sel i {
+  border-color: var(--pri);
+  background: radial-gradient(var(--pri) 55%, transparent 60%);
+}
+
+.opt.correct {
+  border-color: var(--ok) !important;
+  background: var(--ok-soft) !important;
+  color: var(--ok) !important;
+}
+
+.opt.correct i {
+  border-color: var(--ok);
+  background: var(--ok);
+}
+
+.opt.wrong {
+  border-color: var(--acc) !important;
+  background: var(--acc-soft) !important;
+  color: var(--acc) !important;
+}
+
+.opt.wrong i {
+  border-color: var(--acc);
+  background: var(--acc);
+}
+
+/* ----------------- Thông báo Toast ----------------- */
+.toast {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  padding: 14px 18px;
+  border-radius: var(--radius-md);
+  font-weight: 800;
+  font-size: 14px;
+  line-height: 1.4;
+  margin-top: 10px;
+  animation: slideInDown 0.3s ease;
+}
+
+.toast-ok {
+  background: var(--ok-soft);
+  color: var(--ok);
+  border: 1px solid rgba(31, 169, 122, 0.3);
+}
+
+.toast-warn {
+  background: var(--acc-soft);
+  color: var(--acc);
+  border: 1px solid rgba(245, 72, 153, 0.3);
+}
+
+.toast-info {
+  background: var(--pri-soft);
+  color: var(--pri);
+  border: 1px solid rgba(83, 72, 205, 0.3);
+}
+
+/* ----------------- Bảng dữ liệu ----------------- */
+.tw {
+  overflow-x: auto;
+  border-radius: var(--radius-md);
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 14px;
+  min-width: 520px;
+}
+
+th {
+  text-align: left;
+  font-size: 12px;
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--mut);
+  padding: 12px 14px;
+  border-bottom: 2px solid var(--line);
+}
+
+td {
+  padding: 14px;
+  border-bottom: 1px solid var(--line);
+  color: var(--ink);
+  font-weight: 600;
+}
+
+tr:last-child td {
+  border-bottom: none;
+}
+
+tr:hover td {
+  background: var(--pri-soft);
+}
+
+/* ----------------- Modal Dialog ----------------- */
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(20, 18, 42, 0.65);
+  backdrop-filter: blur(8px);
+  z-index: 1000;
+  display: grid;
+  place-items: center;
+  padding: 20px;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.25s ease;
+}
+
+.modal-overlay.active {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.modal-content {
+  background: var(--card);
+  border-radius: var(--radius-xl);
+  max-width: 680px;
+  width: 100%;
+  max-height: 90vh;
+  overflow-y: auto;
+  padding: 32px;
+  border: 1px solid var(--line);
+  box-shadow: 0 25px 60px rgba(0,0,0,0.3);
+  transform: scale(0.95) translateY(10px);
+  transition: transform 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.modal-overlay.active .modal-content {
+  transform: scale(1) translateY(0);
+}
+
+/* ----------------- Accordion (FAQ) ----------------- */
+.accordion-item {
+  border: 1px solid var(--line);
+  border-radius: var(--radius-md);
+  margin-bottom: 12px;
+  background: var(--card);
+  overflow: hidden;
+  transition: border-color var(--transition-fast);
+}
+
+.accordion-item.active {
+  border-color: var(--pri);
+  box-shadow: var(--shadow-subtle);
+}
+
+.accordion-header {
+  padding: 18px 22px;
+  font-weight: 800;
+  font-size: 16px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  cursor: pointer;
+  color: var(--ink);
+  user-select: none;
+}
+
+.accordion-icon {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: var(--pri-soft);
+  color: var(--pri);
+  display: grid;
+  place-items: center;
+  font-size: 18px;
+  transition: transform var(--transition-fast);
+}
+
+.accordion-item.active .accordion-icon {
+  transform: rotate(45deg);
+  background: var(--acc-soft);
+  color: var(--acc);
+}
+
+.accordion-body {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.3s ease, padding 0.3s ease;
+  padding: 0 22px;
+  color: var(--mut);
+  font-weight: 600;
+  line-height: 1.6;
+  font-size: 14.5px;
+}
+
+.accordion-item.active .accordion-body {
+  padding: 0 22px 20px 22px;
+  max-height: 250px;
+}
