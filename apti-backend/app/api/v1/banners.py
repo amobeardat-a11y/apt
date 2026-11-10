@@ -17,3 +17,4 @@ async def list_public_banners(db: AsyncSession = Depends(get_db)):
     stmt = select(Banner).where(Banner.is_active == True).order_by(Banner.display_order.asc())
     banners = (await db.execute(stmt)).scalars().all()
     return APIResponse(data=[BannerResponse.model_validate(b) for b in banners])
+

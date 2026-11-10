@@ -17,3 +17,4 @@ async def list_public_roadmaps(db: AsyncSession = Depends(get_db)):
     stmt = select(Roadmap).where(Roadmap.is_active == True).order_by(Roadmap.display_order.asc())
     roadmaps = (await db.execute(stmt)).scalars().all()
     return APIResponse(data=[RoadmapResponse.model_validate(r) for r in roadmaps])
+

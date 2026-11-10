@@ -6,16 +6,26 @@
 export class SoundEffects {
   constructor() {
     this.ctx = null;
-    const isMuted = localStorage.getItem('apti_sound_muted') === 'true';
+    const isMuted = typeof localStorage !== 'undefined' ? (localStorage.getItem('apti_sound_muted') === 'true') : false;
     this.enabled = !isMuted;
-    this.soundToggleBtn = document.getElementById('sound-toggle-btn');
+    this.soundToggleBtn = typeof document !== 'undefined' ? document.getElementById('sound-toggle-btn') : null;
 
-    this.initButton();
+    if (typeof document !== 'undefined') {
+      if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', () => this.initButton());
+      } else {
+        this.initButton();
+      }
+    }
   }
 
   initButton() {
+    if (!this.soundToggleBtn && typeof document !== 'undefined') {
+      this.soundToggleBtn = document.getElementById('sound-toggle-btn');
+    }
     this.updateButtonUI();
-    if (this.soundToggleBtn) {
+    if (this.soundToggleBtn && !this._btnBound) {
+      this._btnBound = true;
       this.soundToggleBtn.addEventListener('click', () => {
         this.toggle();
       });
@@ -135,3 +145,7 @@ export class SoundEffects {
     }
   }
 }
+
+// Singleton export
+export const sound = new SoundEffects();
+

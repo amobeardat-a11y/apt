@@ -15,3 +15,4 @@ class Roadmap(Base, TimestampMixin):
     phases: Mapped[List[Dict[str, Any]]] = mapped_column(JSON, default=list, nullable=False)
     is_active: Mapped[bool] = mapped_column(Boolean, default=True, nullable=False)
     display_order: Mapped[int] = mapped_column(Integer, default=0, nullable=False)
+

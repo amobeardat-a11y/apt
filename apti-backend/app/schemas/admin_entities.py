@@ -127,3 +127,4 @@ class BannerUpdate(BaseModel):
     bg_gradient: Optional[str] = None
     is_active: Optional[bool] = None
     display_order: Optional[int] = None
+
