@@ -716,3 +716,42 @@ tr:hover td {
     max-width: 80px;
   }
 }
+
+/* ----------------- APTI Admin Control Hub ----------------- */
+.admin-modal-backdrop {
+  z-index: 9999;
+}
+
+.admin-hub-card {
+  box-shadow: 0 25px 60px rgba(15, 23, 42, 0.35);
+  animation: adminModalPop 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+@keyframes adminModalPop {
+  from {
+    opacity: 0;
+    transform: scale(0.96) translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+.admin-tabs::-webkit-scrollbar {
+  height: 4px;
+}
+
+.admin-tabs::-webkit-scrollbar-thumb {
+  background: var(--line);
+  border-radius: 4px;
+}
+
+.kpi-mini-card {
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.04);
+  transition: transform 0.15s ease;
+}
+
+.kpi-mini-card:hover {
+  transform: translateY(-2px);
+}

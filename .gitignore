@@ -23,3 +23,7 @@ __pycache__/
 .DS_Store
 Thumbs.db
 
+
+# Extracted temporary files
+extracted_data/
+extracted/

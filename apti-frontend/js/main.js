@@ -9,6 +9,7 @@ import { SoundEffects } from './modules/soundEffects.js';
 import { QuizController } from './modules/quizController.js';
 import { UIInteractions } from './modules/uiInteractions.js';
 import { AuthController } from './modules/authController.js';
+import { adminCtrl } from './modules/adminController.js';
 import { toast } from './modules/toastManager.js';
 import { api } from './services/apiClient.js';
 
@@ -36,6 +37,7 @@ document.addEventListener('DOMContentLoaded', () => {
     () => uiInteractions.closeModal()
   );
   window.aptiAuthController = authController;
+  window.aptiAdminController = adminCtrl;
 
   // Global sound effect on interactive buttons
   document.querySelectorAll('button:not([data-nosound]), .btn').forEach(btn => {

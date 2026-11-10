@@ -26,3 +26,4 @@ services:
         value: admin@apti.vn
       - key: FIRST_SUPERUSER_PASSWORD
         value: Apti@2026Admin!
+

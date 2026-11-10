@@ -6,10 +6,12 @@ from httpx import AsyncClient, ASGITransport
 from sqlalchemy.ext.asyncio import create_async_engine, async_sessionmaker, AsyncSession
 
 from app.main import app
+from app.config import settings
 from app.db.base import Base
 from app.db.session import get_db
 from app.db.seed import seed_database
 from app.core.rate_limiter import rate_limiter
+from app.core.security import create_access_token
 
 # Use in-memory SQLite for testing
 TEST_DATABASE_URL = "sqlite+aiosqlite:///:memory:"
@@ -65,3 +67,22 @@ async def client(db_session: AsyncSession) -> AsyncGenerator[AsyncClient, None]:
     with rate_limiter._lock:
         rate_limiter._history.clear()
 
+
+@pytest_asyncio.fixture(scope="function")
+async def student_token(client: AsyncClient) -> str:
+    res = await client.post(
+        "/api/v1/auth/login",
+        json={"email": "student@apti.vn", "password": "Student@2026!"}
+    )
+    assert res.status_code == 200
+    return res.json()["access_token"]
+
+
+@pytest_asyncio.fixture(scope="function")
+async def admin_token(client: AsyncClient) -> str:
+    res = await client.post(
+        "/api/v1/auth/login",
+        json={"email": settings.FIRST_SUPERUSER_EMAIL, "password": settings.FIRST_SUPERUSER_PASSWORD}
+    )
+    assert res.status_code == 200
+    return res.json()["access_token"]

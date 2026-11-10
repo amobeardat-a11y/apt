@@ -264,6 +264,139 @@ export class ApiClient {
   async getDocumentDownloadUrl(docId) {
     return this.request(`/documents/${docId}/download-link`, { method: 'GET' });
   }
+
+  // 5. Đề thi thử (Mock Exams) & Lộ trình (Roadmaps) & Banners
+  async getExams(categoryId = null) {
+    const q = categoryId ? `?category_id=${encodeURIComponent(categoryId)}` : '';
+    return this.request(`/exams${q}`, { method: 'GET' });
+  }
+
+  async getExamDetail(examId) {
+    return this.request(`/exams/${examId}`, { method: 'GET' });
+  }
+
+  async submitExam(examId, answers, timeSpentSeconds) {
+    return this.request(`/exams/${examId}/submit`, {
+      method: 'POST',
+      body: JSON.stringify({
+        time_spent_seconds: timeSpentSeconds,
+        answers
+      })
+    });
+  }
+
+  async getRoadmaps() {
+    return this.request('/roadmaps', { method: 'GET' });
+  }
+
+  async getBanners() {
+    return this.request('/banners', { method: 'GET' });
+  }
+
+  // 6. Admin Control Center APIs
+  async adminGetStats() {
+    return this.request('/admin/stats', { method: 'GET' });
+  }
+
+  async adminGetQuestions(page = 1, pageSize = 20, categoryId = null, level = null, search = null) {
+    let q = `?page=${page}&page_size=${pageSize}`;
+    if (categoryId && categoryId !== 'all') q += `&category_id=${encodeURIComponent(categoryId)}`;
+    if (level && level !== 'all') q += `&level=${encodeURIComponent(level)}`;
+    if (search) q += `&search=${encodeURIComponent(search)}`;
+    return this.request(`/admin/questions${q}`, { method: 'GET' });
+  }
+
+  async adminCreateQuestion(data) {
+    return this.request('/admin/questions', {
+      method: 'POST',
+      body: JSON.stringify(data)
+    });
+  }
+
+  async adminUpdateQuestion(id, data) {
+    return this.request(`/admin/questions/${id}`, {
+      method: 'PUT',
+      body: JSON.stringify(data)
+    });
+  }
+
+  async adminDeleteQuestion(id, hardDelete = false) {
+    return this.request(`/admin/questions/${id}?hard_delete=${hardDelete}`, {
+      method: 'DELETE'
+    });
+  }
+
+  async adminGetExams() {
+    return this.request('/admin/exams', { method: 'GET' });
+  }
+
+  async adminCreateExam(data) {
+    return this.request('/admin/exams', {
+      method: 'POST',
+      body: JSON.stringify(data)
+    });
+  }
+
+  async adminUpdateExam(id, data) {
+    return this.request(`/admin/exams/${id}`, {
+      method: 'PUT',
+      body: JSON.stringify(data)
+    });
+  }
+
+  async adminDeleteExam(id) {
+    return this.request(`/admin/exams/${id}`, {
+      method: 'DELETE'
+    });
+  }
+
+  async adminGetRoadmaps() {
+    return this.request('/admin/roadmaps', { method: 'GET' });
+  }
+
+  async adminCreateRoadmap(data) {
+    return this.request('/admin/roadmaps', {
+      method: 'POST',
+      body: JSON.stringify(data)
+    });
+  }
+
+  async adminUpdateRoadmap(id, data) {
+    return this.request(`/admin/roadmaps/${id}`, {
+      method: 'PUT',
+      body: JSON.stringify(data)
+    });
+  }
+
+  async adminDeleteRoadmap(id) {
+    return this.request(`/admin/roadmaps/${id}`, {
+      method: 'DELETE'
+    });
+  }
+
+  async adminGetBanners() {
+    return this.request('/admin/banners', { method: 'GET' });
+  }
+
+  async adminCreateBanner(data) {
+    return this.request('/admin/banners', {
+      method: 'POST',
+      body: JSON.stringify(data)
+    });
+  }
+
+  async adminUpdateBanner(id, data) {
+    return this.request(`/admin/banners/${id}`, {
+      method: 'PUT',
+      body: JSON.stringify(data)
+    });
+  }
+
+  async adminDeleteBanner(id) {
+    return this.request(`/admin/banners/${id}`, {
+      method: 'DELETE'
+    });
+  }
 }
 
 // Singleton API instance

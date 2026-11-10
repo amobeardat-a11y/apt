@@ -190,3 +190,4 @@ Sau khi hoàn tất triển khai cả 3 dịch vụ, hãy kiểm tra danh sách 
 | **Lỗi CORS trên Vercel `Access-Control-Allow-Origin missing`** | Tên miền Vercel chưa được cấp phép trong danh sách CORS của Backend. | Thêm domain Vercel vào biến `BACKEND_CORS_ORIGINS` trên Render hoặc kiểm tra `allow_origin_regex` trong `main.py`. |
 | **Neon báo lỗi `connection limit exceeded`** | Neon Serverless giới hạn số lượng kết nối trực tiếp đồng thời trên gói Free. | Đảm bảo chuỗi kết nối sử dụng endpoint có hậu tố **`-pooler`** (Pooled Connection) và thiết lập `pool_recycle=300`. |
 | **Frontend báo `Chế độ Offline`** | Backend Render đang khởi động hoặc chưa điền đúng URL Render trong `config.js`. | Kiểm tra lại biến `DEFAULT_PRODUCTION_API_URL` trong [js/config.js](file:///c:/Users/cp/Downloads/New%20folder%20(3)/apti-frontend/js/config.js) và đảm bảo Backend Render có trạng thái `Live`. |
+

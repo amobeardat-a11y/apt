@@ -4,6 +4,9 @@ from app.models.quiz import Category, Question, QuizAttempt
 from app.models.plan import PricingPlan
 from app.models.order import Order, OrderStatus, PaymentMethod
 from app.models.document import DocumentPack
+from app.models.exam import Exam
+from app.models.roadmap import Roadmap
+from app.models.banner import Banner
 
 __all__ = [
     "Base",
@@ -20,4 +23,7 @@ __all__ = [
     "OrderStatus",
     "PaymentMethod",
     "DocumentPack",
+    "Exam",
+    "Roadmap",
+    "Banner",
 ]

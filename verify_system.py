@@ -183,18 +183,74 @@ def main():
         assert "download_url" in doc_res.json()["data"]
         print("  ✓ Mở khóa tải tài liệu bản quyền Chuyên sâu PDF: THÀNH CÔNG")
 
-        # 6. Admin RBAC Verification
-        print("\n[6/6] Kiểm thử Phân quyền Quản trị (Admin RBAC & Dashboard)...")
+        # 6. Admin RBAC & 1000+ Questions & Control Hub Verification
+        print("\n[6/6] Kiểm thử Quản trị Admin, Ngân hàng 1000+ Câu hỏi & Bảo mật RBAC...")
         admin_login = client.post("/auth/login", json={
             "email": "admin@apti.vn",
             "password": "Apti@2026Admin!"
         })
         assert admin_login.status_code == 200
         admin_token = admin_login.json()["access_token"]
-        stats_res = client.get("/admin/stats", headers={"Authorization": f"Bearer {admin_token}"})
+        admin_headers = {"Authorization": f"Bearer {admin_token}"}
+
+        # Check total questions bank >= 1000
+        stats_res = client.get("/admin/stats", headers=admin_headers)
         assert stats_res.status_code == 200
         stats = stats_res.json()["data"]
-        print(f"  ✓ Dashboard Admin: {stats['total_users']} Học viên | Doanh thu: {stats['total_revenue_vnd']:,} VNĐ | Đề thi: {stats['total_questions_bank']} câu")
+        assert stats["total_questions_bank"] >= 1000, f"Ngân hàng câu hỏi phải >= 1000, hiện có: {stats['total_questions_bank']}"
+        print(f"  ✓ Ngân hàng câu hỏi: {stats['total_questions_bank']} câu hỏi chuẩn hóa (>= 1,000 câu): ĐẠT CHUẨN")
+        print(f"  ✓ Dashboard Admin: {stats['total_users']} Học viên | Doanh thu: {stats['total_revenue_vnd']:,} VNĐ | Đề thi: {stats['total_exams']} đề")
+
+        # Check public Exams & Anti-Cheat
+        exams_res = client.get("/exams")
+        assert exams_res.status_code == 200
+        exams_list = exams_res.json()["data"]
+        assert len(exams_list) >= 5
+        print(f"  ✓ Đề thi thử (Mock Exams): {len(exams_list)} đề thi sẵn sàng cho học viên")
+
+        exam_detail = client.get(f"/exams/{exams_list[0]['id']}").json()["data"]
+        for eq in exam_detail["questions"]:
+            assert "correct_index" not in eq
+            assert "explanation" not in eq
+        print("  ✓ Bảo mật Anti-Cheat: Không rò rỉ đáp án hoặc giải thích trong đề thi: BẢO MẬT TUYỆT ĐỐI")
+
+        # Check Roadmaps & Banners
+        roadmaps_res = client.get("/roadmaps")
+        assert roadmaps_res.status_code == 200
+        print(f"  ✓ Lộ trình học tập (Roadmaps): {len(roadmaps_res.json()['data'])} lộ trình MT")
+
+        banners_res = client.get("/banners")
+        assert banners_res.status_code == 200
+        print(f"  ✓ Banners sự kiện: {len(banners_res.json()['data'])} banner đang kích hoạt")
+
+        # Test RBAC security: student rejected with 403
+        hack_res = client.post("/admin/questions", headers=auth_headers, json={
+            "category_id": "numerical",
+            "question_text": "Hack test",
+            "options": ["A", "B", "C", "D"],
+            "correct_index": 0,
+            "explanation": "Hack"
+        })
+        assert hack_res.status_code == 403
+        print("  ✓ Bảo mật RBAC: Học viên thường bị chặn 403 khi gọi API Admin: BẢO MẬT TUYỆT ĐỐI")
+
+        # Test Admin creates & deletes a new question
+        new_q_res = client.post("/admin/questions", headers=admin_headers, json={
+            "category_id": "logical",
+            "level": "Thực tế",
+            "question_text": "Câu hỏi kiểm thử quy trình thêm mới từ Admin Panel",
+            "options": ["Phương án 1", "Phương án 2", "Phương án 3", "Phương án 4"],
+            "correct_index": 2,
+            "explanation": "Phương án 3 chính xác dựa trên giả thiết.",
+            "tip": "Mẹo làm bài nhanh",
+            "is_premium": False,
+            "time_limit_seconds": 60
+        })
+        assert new_q_res.status_code == 201
+        created_qid = new_q_res.json()["data"]["id"]
+        del_q_res = client.delete(f"/admin/questions/{created_qid}", headers=admin_headers)
+        assert del_q_res.status_code == 200
+        print(f"  ✓ Thao tác Admin: Thêm câu hỏi #{created_qid} và xóa thành công: HOÀN TẤT")
 
         print("\n" + "=" * 70)
         print(" KẾT QUẢ: TOÀN BỘ 100% CÁC BÀI KIỂM THỬ ĐỀU VƯỢT QUA XUẤT SẮC!")

@@ -32,6 +32,17 @@ export class AuthController {
 
     if (user) {
       // Đã đăng nhập
+      if (user.role === 'ADMIN') {
+        const adminBtn = document.createElement('button');
+        adminBtn.className = 'btn b-pri b-sm';
+        adminBtn.id = 'header-admin-btn';
+        adminBtn.style.marginRight = '8px';
+        adminBtn.style.background = 'var(--acc)';
+        adminBtn.style.borderColor = 'var(--acc)';
+        adminBtn.innerHTML = `<span>🛠️ Quản trị Admin</span>`;
+        this.headerAuthContainer.appendChild(adminBtn);
+      }
+
       const tierBadge = user.subscription_tier === 'MASTER_30D'
         ? '<span class="chip a" style="font-size:11px; padding:2px 8px;">MT Master</span>'
         : (user.subscription_tier === 'STARTER_7D'
@@ -321,6 +332,14 @@ export class AuthController {
             <span>${escapeHtml(expiryText)}</span>
           </div>
         </div>
+
+        ${user.role === 'ADMIN' ? `
+          <div style="margin-bottom:16px;">
+            <button class="btn b-pri" id="profile-open-admin-btn" style="width:100%; background:var(--acc); border-color:var(--acc);" onclick="document.getElementById('modal-close-btn').click()">
+              🛠️ Mở Bảng Điều Khiển Quản Trị (Admin Hub)
+            </button>
+          </div>
+        ` : ''}
 
         <div class="row" style="justify-content:space-between; gap:12px;">
           ${!user.has_active_subscription ? `
