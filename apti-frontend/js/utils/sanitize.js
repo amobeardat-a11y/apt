@@ -17,3 +17,4 @@ export function formatVND(amount) {
   if (isNaN(amount)) return '0';
   return Number(amount).toLocaleString('vi-VN');
 }
+

@@ -143,3 +143,4 @@ async def test_document_authorization(client: AsyncClient):
     )
     assert dl_free.status_code == 200
     assert "download_url" in dl_free.json()["data"]
+

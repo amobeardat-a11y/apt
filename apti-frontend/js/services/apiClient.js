@@ -4,9 +4,11 @@
  * Hỗ trợ Dual-Mode: Tự động phát hiện Backend Online / Offline để trải nghiệm không bị gián đoạn.
  */
 
+import { getApiBaseUrl } from '../config.js';
+
 export class ApiClient {
-  constructor(baseUrl = 'http://localhost:8000/api/v1') {
-    this.baseUrl = baseUrl;
+  constructor(baseUrl = null) {
+    this.baseUrl = baseUrl || getApiBaseUrl();
     this.tokenKey = 'apti_access_token';
     this.refreshTokenKey = 'apti_refresh_token';
     this.userKey = 'apti_user_profile';
@@ -266,3 +268,4 @@ export class ApiClient {
 
 // Singleton API instance
 export const api = new ApiClient();
+

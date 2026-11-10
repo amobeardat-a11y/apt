@@ -48,10 +48,19 @@ class Settings(BaseSettings):
     @field_validator("BACKEND_CORS_ORIGINS", mode="before")
     @classmethod
     def assemble_cors_origins(cls, v: Union[str, List[str]]) -> List[str]:
-        if isinstance(v, str) and not v.startswith("["):
-            return [i.strip() for i in v.split(",") if i.strip()]
-        elif isinstance(v, (list, str)):
-            return v
+        if isinstance(v, str):
+            clean = v.strip()
+            if clean.startswith("[") and clean.endswith("]"):
+                try:
+                    import json
+                    parsed = json.loads(clean)
+                    if isinstance(parsed, list):
+                        return [str(i).strip() for i in parsed if str(i).strip()]
+                except Exception:
+                    pass
+            return [i.strip() for i in clean.split(",") if i.strip()]
+        elif isinstance(v, list):
+            return [str(i).strip() for i in v if str(i).strip()]
         raise ValueError(v)
 
     # Rate Limiting (Security against Brute-Force & DoS)
