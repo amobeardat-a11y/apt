@@ -602,3 +602,117 @@ tr:hover td {
   padding: 0 22px 20px 22px;
   max-height: 250px;
 }
+
+/* ----------------- Global Floating Toast Container ----------------- */
+.toast-container {
+  position: fixed;
+  top: 24px;
+  right: 24px;
+  z-index: 99999;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  max-width: 380px;
+  pointer-events: none;
+}
+
+.toast-item {
+  pointer-events: auto;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 18px;
+  border-radius: var(--radius-pill);
+  font-family: var(--font-main);
+  font-weight: 800;
+  font-size: 14px;
+  color: #FFFFFF;
+  background: var(--ink);
+  box-shadow: 0 10px 28px rgba(0, 0, 0, 0.22);
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+}
+
+.toast-item.toast-success {
+  background: #10B981;
+}
+
+.toast-item.toast-error {
+  background: #EF4444;
+}
+
+.toast-item.toast-warning {
+  background: #F59E0B;
+}
+
+.toast-item.toast-info {
+  background: #4F46E5;
+}
+
+.toast-item .toast-icon {
+  display: flex;
+  align-items: center;
+  flex: none;
+}
+
+.toast-item .toast-msg {
+  flex: 1;
+  line-height: 1.35;
+}
+
+.toast-item .toast-close {
+  background: none;
+  border: none;
+  color: #FFFFFF;
+  opacity: 0.8;
+  font-size: 18px;
+  cursor: pointer;
+  padding: 0 4px;
+  line-height: 1;
+}
+
+.toast-item .toast-close:hover {
+  opacity: 1;
+}
+
+.toast-item.fade-out {
+  opacity: 0;
+  transform: translateY(-10px) scale(0.95);
+}
+
+/* ----------------- Header User Pill & Sound Toggle ----------------- */
+.nav-user-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 14px;
+  border-radius: var(--radius-pill);
+  background: var(--pri-soft);
+  color: var(--pri);
+  font-size: 13.5px;
+  font-weight: 800;
+  border: 1.5px solid var(--pri);
+}
+
+.nav-user-btn:hover {
+  background: var(--pri);
+  color: #FFFFFF;
+}
+
+.nav-user-btn:hover .chip {
+  background: #FFFFFF;
+  color: var(--pri);
+}
+
+.user-name-text {
+  max-width: 120px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+@media (max-width: 576px) {
+  .user-name-text {
+    max-width: 80px;
+  }
+}

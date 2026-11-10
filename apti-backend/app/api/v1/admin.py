@@ -5,6 +5,7 @@ from sqlalchemy import select, func, desc
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.db.session import get_db
+from app.db.base import ensure_utc
 from app.core.dependencies import require_admin
 from app.models.user import User, SubscriptionTier, UserRole
 from app.models.quiz import QuizAttempt, Question
@@ -120,7 +121,8 @@ async def update_user_status_admin(
         user.subscription_tier = req.subscription_tier
     if req.subscription_days_to_add:
         now = datetime.now(timezone.utc)
-        start = user.subscription_expires_at if (user.subscription_expires_at and user.subscription_expires_at > now) else now
+        current_exp = ensure_utc(user.subscription_expires_at)
+        start = current_exp if (current_exp and current_exp > now) else now
         user.subscription_expires_at = start + timedelta(days=req.subscription_days_to_add)
 
     await db.commit()

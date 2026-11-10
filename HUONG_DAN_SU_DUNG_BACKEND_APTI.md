@@ -342,23 +342,33 @@ python -m alembic downgrade -1
 
 ---
 
-### 7. HƯỚNG DẪN CHẠY KIỂM THỬ TỰ ĐỘNG (PYTEST)
+### 7. HƯỚNG DẪN CHẠY KIỂM THỬ TỰ ĐỘNG (PYTEST & END-TO-END)
 
-Toàn bộ các luồng nghiệp vụ nhạy cảm đều có bộ kiểm thử tự động tại thư mục [tests/](file:///c:/Users/cp/Downloads/New%20folder%20(3)/apti-backend/tests/):
+Toàn bộ các luồng nghiệp vụ nhạy cảm đều có bộ kiểm thử tự động tại thư mục [tests/](file:///c:/Users/cp/Downloads/New%20folder%20(3)/apti-backend/tests/) và script kiểm thử đầu-cuối [verify_system.py](file:///c:/Users/cp/Downloads/New%20folder%20(3)/verify_system.py):
 
-Chạy lệnh kiểm thử:
+#### 7.1. Chạy bộ kiểm thử Pytest (9/9 Passed)
 ```bash
 cd "c:\Users\cp\Downloads\New folder (3)\apti-backend"
 python -m pytest tests -v
 ```
 
-**Chi tiết các ca kiểm thử bảo mật đã chạy thành công (100% Passed)**:
-1. `test_register_and_login`: Kiểm tra từ chối mật khẩu yếu và đăng nhập thành công cấp đủ JWT token.
-2. `test_brute_force_lockout`: Kiểm tra cơ chế tự động khóa tài khoản sau 5 lần nhập sai liên tiếp.
-3. `test_quiz_integrity_no_answer_leak`: Đảm bảo API trả câu hỏi thi không chứa đáp án để chống F12 gian lận.
-4. `test_quiz_submission_and_grading`: Kiểm tra quy trình nộp bài, tính điểm và lời thoại linh vật Em Tee.
-5. `test_owasp_security_headers`: Kiểm tra đầy đủ các Header bảo mật (CSP, HSTS, X-Frame-Options, Nosniff).
-6. `test_health_check`: Kiểm tra độ sống của kết nối cơ sở dữ liệu.
+**Chi tiết 9 ca kiểm thử bảo mật & nghiệp vụ đã chạy thành công:**
+1. `test_register_and_login`: Kiểm tra chính sách mật khẩu mạnh và cấp phát JWT token.
+2. `test_brute_force_lockout`: Tự động khóa tài khoản sau 5 lần nhập sai liên tiếp.
+3. `test_quiz_integrity_no_answer_leak`: Chống rò rỉ đáp án đúng và lời giải trong đề thi (Anti-Cheating).
+4. `test_quiz_submission_and_grading`: Chấm điểm trên Server, phân tích tỷ lệ phần trăm và phản hồi từ Em Tee.
+5. `test_owasp_security_headers`: Đảm bảo 100% phản hồi có đủ header an ninh (CSP, HSTS, X-Frame-Options, Nosniff).
+6. `test_health_check`: Kiểm tra độ sống và độ trễ kết nối cơ sở dữ liệu.
+7. `test_rbac_admin_protection`: Kiểm tra phân quyền đa tầng (Guest: 401, Student: 403, Admin: 200).
+8. `test_payment_webhook_hmac_security`: Xác thực chữ ký số HMAC-SHA256 trên webhook thanh toán.
+9. `test_document_authorization`: Kiểm tra quyền truy cập tài liệu bản quyền theo gói học.
+
+#### 7.2. Chạy kiểm thử toàn diện cả Frontend & Backend (End-to-End)
+```bash
+cd "c:\Users\cp\Downloads\New folder (3)"
+python -u verify_system.py
+```
+Script tự động khởi chạy đồng thời Backend (port 8000) và Frontend (port 5500), kiểm tra toàn bộ 16 tệp tĩnh, tiêu đề OWASP, luồng đăng ký, đăng nhập, nộp bài, tạo mã VietQR MB Bank, giả lập thanh toán nâng cấp tài khoản và bảo vệ tài liệu.
 
 ---
 

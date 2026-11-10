@@ -3,7 +3,7 @@ from datetime import datetime, timezone
 from typing import Optional, List
 from sqlalchemy import String, Boolean, Integer, DateTime, Enum, ForeignKey
 from sqlalchemy.orm import Mapped, mapped_column, relationship
-from app.db.base import Base, TimestampMixin
+from app.db.base import Base, TimestampMixin, ensure_utc
 
 
 class UserRole(str, enum.Enum):
@@ -65,7 +65,7 @@ class User(Base, TimestampMixin):
     def is_locked(self) -> bool:
         if self.locked_until:
             now = datetime.now(timezone.utc)
-            return self.locked_until > now
+            return ensure_utc(self.locked_until) > now
         return False
 
     @property
@@ -74,7 +74,7 @@ class User(Base, TimestampMixin):
             return False
         if not self.subscription_expires_at:
             return False
-        return self.subscription_expires_at > datetime.now(timezone.utc)
+        return ensure_utc(self.subscription_expires_at) > datetime.now(timezone.utc)
 
 
 class RefreshToken(Base, TimestampMixin):

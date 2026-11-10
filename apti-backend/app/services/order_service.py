@@ -7,6 +7,7 @@ from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.config import settings
+from app.db.base import ensure_utc
 from app.core.security import verify_hmac_signature
 from app.models.order import Order, OrderStatus, PaymentMethod
 from app.models.plan import PricingPlan
@@ -159,8 +160,9 @@ class OrderService:
             
             # Extend existing subscription if still active, or start fresh from now
             start_time = now
-            if user.subscription_expires_at and user.subscription_expires_at > now:
-                start_time = user.subscription_expires_at
+            current_expiry = ensure_utc(user.subscription_expires_at)
+            if current_expiry and current_expiry > now:
+                start_time = current_expiry
             
             user.subscription_expires_at = start_time + timedelta(days=plan.duration_days)
 

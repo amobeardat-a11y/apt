@@ -9,6 +9,7 @@ from app.main import app
 from app.db.base import Base
 from app.db.session import get_db
 from app.db.seed import seed_database
+from app.core.rate_limiter import rate_limiter
 
 # Use in-memory SQLite for testing
 TEST_DATABASE_URL = "sqlite+aiosqlite:///:memory:"
@@ -53,10 +54,14 @@ async def client(db_session: AsyncSession) -> AsyncGenerator[AsyncClient, None]:
         yield db_session
 
     app.dependency_overrides[get_db] = override_get_db
+    with rate_limiter._lock:
+        rate_limiter._history.clear()
 
     transport = ASGITransport(app=app)
     async with AsyncClient(transport=transport, base_url="http://testserver") as ac:
         yield ac
 
     app.dependency_overrides.clear()
+    with rate_limiter._lock:
+        rate_limiter._history.clear()
 

@@ -5,6 +5,7 @@ from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.db.session import get_db
+from app.db.base import ensure_utc
 from app.core.dependencies import get_current_user
 from app.models.user import User
 from app.models.plan import PricingPlan
@@ -29,8 +30,9 @@ async def get_my_subscription(current_user: User = Depends(get_current_user)):
     """Lấy tình trạng gói bản quyền hiện tại của tài khoản."""
     now = datetime.now(timezone.utc)
     days_left = 0
-    if current_user.subscription_expires_at and current_user.subscription_expires_at > now:
-        days_left = max(0, (current_user.subscription_expires_at - now).days)
+    expires_at = ensure_utc(current_user.subscription_expires_at)
+    if expires_at and expires_at > now:
+        days_left = max(0, (expires_at - now).days)
 
     return APIResponse(
         data=MySubscriptionResponse(

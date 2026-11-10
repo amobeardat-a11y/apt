@@ -7,6 +7,7 @@ from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.config import settings
 from app.db.session import get_db
+from app.db.base import ensure_utc
 from app.core.security import decode_token
 from app.models.user import User, UserRole, SubscriptionTier
 
@@ -60,7 +61,7 @@ async def get_current_user(
         )
 
     if user.is_locked:
-        lock_seconds = int((user.locked_until - datetime.now(timezone.utc)).total_seconds())
+        lock_seconds = max(1, int((ensure_utc(user.locked_until) - datetime.now(timezone.utc)).total_seconds()))
         raise HTTPException(
             status_code=status.HTTP_423_LOCKED,
             detail=f"Tài khoản đang tạm khóa do nhập sai mật khẩu quá nhiều lần. Vui lòng chờ {lock_seconds} giây."

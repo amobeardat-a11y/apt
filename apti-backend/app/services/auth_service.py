@@ -5,6 +5,7 @@ from sqlalchemy import select, update
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.config import settings
+from app.db.base import ensure_utc
 from app.core.security import (
     verify_password,
     get_password_hash,
@@ -70,7 +71,7 @@ class AuthService:
 
         # Check account lockout
         if user.is_locked:
-            lock_seconds = int((user.locked_until - datetime.now(timezone.utc)).total_seconds())
+            lock_seconds = max(1, int((ensure_utc(user.locked_until) - datetime.now(timezone.utc)).total_seconds()))
             raise HTTPException(
                 status_code=status.HTTP_423_LOCKED,
                 detail=f"Tài khoản bị tạm khóa do nhập sai quá nhiều lần. Vui lòng thử lại sau {lock_seconds} giây."
@@ -148,7 +149,7 @@ class AuthService:
         if not record:
             raise unauthorized_exc
 
-        if record.expires_at < datetime.now(timezone.utc):
+        if ensure_utc(record.expires_at) < datetime.now(timezone.utc):
             record.is_revoked = True
             await db.commit()
             raise unauthorized_exc

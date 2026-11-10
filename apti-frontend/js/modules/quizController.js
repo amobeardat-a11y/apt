@@ -1,10 +1,13 @@
 /**
- * Bộ điều khiển Động cơ Luyện thi Trực tuyến (Quiz Engine)
- * Xử lý luồng làm bài thi, đếm ngược thời gian, chấm điểm và phân tích năng lực
+ * Bộ điều khiển Động cơ Luyện thi Trực tuyến (Quiz Engine) - APTI
+ * Xử lý luồng làm bài thi, đếm ngược thời gian, chấm điểm Server (hoặc Offline), phân tích năng lực
  */
 
 import { QUIZ_QUESTIONS, QUIZ_CATEGORIES } from '../data/quizQuestions.js';
 import { MASCOT_QUOTES, INITIAL_TEST_HISTORY } from '../data/appData.js';
+import { api } from '../services/apiClient.js';
+import { toast } from './toastManager.js';
+import { escapeHtml } from '../utils/sanitize.js';
 
 export class QuizController {
   constructor(mascot, sound) {
@@ -38,13 +41,12 @@ export class QuizController {
     this.btnSubmit = document.getElementById('btn-quiz-submit');
     this.btnHint = document.getElementById('btn-quiz-hint');
     this.hintBox = document.getElementById('quiz-hint-box');
-    this.btnRetake = document.getElementById('btn-retake-quiz');
     this.historyTableBody = document.getElementById('test-history-tbody');
 
     this.init();
   }
 
-  init() {
+  async init() {
     this.renderCategoryTabs();
     this.renderHistoryTable();
     this.startQuiz();
@@ -54,7 +56,6 @@ export class QuizController {
     if (this.btnNext) this.btnNext.addEventListener('click', () => this.nextQuestion());
     if (this.btnSubmit) this.btnSubmit.addEventListener('click', () => this.submitQuiz());
     if (this.btnHint) this.btnHint.addEventListener('click', () => this.toggleHint());
-    if (this.btnRetake) this.btnRetake.addEventListener('click', () => this.retakeQuiz());
   }
 
   renderCategoryTabs() {
@@ -153,11 +154,11 @@ export class QuizController {
     }
 
     if (this.questionCategoryChip) {
-      this.questionCategoryChip.textContent = `${q.categoryName} • ${q.level}`;
+      this.questionCategoryChip.textContent = `${q.categoryName || 'Tổng hợp'} • ${q.level || 'Cơ bản'}`;
     }
 
     if (this.questionContentText) {
-      this.questionContentText.textContent = q.question;
+      this.questionContentText.textContent = q.question || q.question_text || '';
     }
 
     // Hide hint box on slide
@@ -177,7 +178,7 @@ export class QuizController {
         
         optDiv.innerHTML = `
           <i>${letters[idx]}</i>
-          <span>${optText}</span>
+          <span>${escapeHtml(optText)}</span>
         `;
 
         optDiv.addEventListener('click', () => {
@@ -229,17 +230,7 @@ export class QuizController {
   selectOption(questionId, optionIndex) {
     this.sound.playPop();
     this.userAnswers[questionId] = optionIndex;
-    
-    // Check instant mascot feedback
-    const q = this.activeQuestions.find(item => item.id === questionId);
-    if (q) {
-      if (optionIndex === q.correctIndex) {
-        this.mascot.say('Chính xác! Em Tee khen bạn đó.');
-      } else {
-        this.mascot.say('Đã ghi nhận câu trả lời của bạn.');
-      }
-    }
-
+    this.mascot.say('Đã ghi nhận câu trả lời. Hãy tự tin tiến lên nhé!');
     this.renderQuestion();
   }
 
@@ -257,7 +248,7 @@ export class QuizController {
         <div class="toast toast-info" style="margin-top:0">
           <div>
             <b>Gợi ý tư duy:</b><br>
-            ${q.tip}
+            ${escapeHtml(q.tip || 'Tập trung vào từ khóa và phân tích các dữ liệu đã cho.')}
           </div>
         </div>
       `;
@@ -281,12 +272,56 @@ export class QuizController {
     }
   }
 
-  submitQuiz(isTimeout = false) {
+  async submitQuiz(isTimeout = false) {
     clearInterval(this.timerInterval);
     this.isSubmitted = true;
     this.sound.playCelebration();
 
-    // Compute scores
+    const timeSpent = this.totalSeconds - this.remainingSeconds;
+
+    // Check if Backend API is available for Server-side Grading
+    let serverGraded = null;
+    try {
+      if (api.isOnline) {
+        const answersList = this.activeQuestions.map(q => ({
+          question_id: q.id,
+          selected_index: this.userAnswers[q.id] !== undefined ? this.userAnswers[q.id] : -1
+        }));
+        const res = await api.submitQuiz(answersList, timeSpent, this.currentCategory);
+        if (res && res.data) {
+          serverGraded = res.data;
+        }
+      }
+    } catch {
+      // Fallback to local offline grading
+    }
+
+    if (serverGraded) {
+      // Dùng kết quả chấm điểm từ Backend
+      const totalCorrect = serverGraded.correct_answers;
+      const totalQuestions = serverGraded.total_questions;
+      const percentOverall = Math.round(serverGraded.score_percentage);
+
+      const record = {
+        testName: this.currentCategory === 'all' ? 'Tổng hợp MT Mock Test (Server)' : `Chuyên đề ${this.activeQuestions[0]?.categoryName || ''}`,
+        date: new Date().toLocaleDateString('vi-VN', { day: '2-digit', month: '2-digit' }),
+        score: `${totalCorrect}/${totalQuestions}`,
+        time: `${Math.floor(timeSpent / 60)}:${String(timeSpent % 60).padStart(2, '0')}`,
+        status: percentOverall >= 75 ? 'Đạt' : (percentOverall >= 50 ? 'Khá' : 'Luyện thêm'),
+        statusClass: percentOverall >= 75 ? 'g' : (percentOverall >= 50 ? '' : 'a')
+      };
+
+      this.saveTestHistory(record);
+      this.renderHistoryTable();
+      this.renderServerResultsDashboard(serverGraded, isTimeout);
+      this.mascot.say(serverGraded.mascot_message || MASCOT_QUOTES.goodJob);
+    } else {
+      // Chấm điểm Offline cục bộ
+      this.gradeOffline(isTimeout);
+    }
+  }
+
+  gradeOffline(isTimeout = false) {
     let totalCorrect = 0;
     const categoryStats = {
       numerical: { total: 0, correct: 0, name: 'Số học' },
@@ -309,29 +344,72 @@ export class QuizController {
 
     const totalQuestions = this.activeQuestions.length;
     const percentOverall = Math.round((totalCorrect / totalQuestions) * 100);
+    const timeSpent = this.totalSeconds - this.remainingSeconds;
 
-    // Save history record
     const record = {
       testName: this.currentCategory === 'all' ? 'Tổng hợp MT Mock Test' : `Chuyên đề ${this.activeQuestions[0]?.categoryName || ''}`,
       date: new Date().toLocaleDateString('vi-VN', { day: '2-digit', month: '2-digit' }),
       score: `${totalCorrect}/${totalQuestions}`,
-      time: `${Math.floor((this.totalSeconds - this.remainingSeconds) / 60)}:${String((this.totalSeconds - this.remainingSeconds) % 60).padStart(2, '0')}`,
+      time: `${Math.floor(timeSpent / 60)}:${String(timeSpent % 60).padStart(2, '0')}`,
       status: percentOverall >= 75 ? 'Đạt' : (percentOverall >= 50 ? 'Khá' : 'Luyện thêm'),
       statusClass: percentOverall >= 75 ? 'g' : (percentOverall >= 50 ? '' : 'a')
     };
 
     this.saveTestHistory(record);
     this.renderHistoryTable();
-
-    // Render Dashboard
     this.renderResultsDashboard(totalCorrect, totalQuestions, percentOverall, categoryStats, isTimeout);
 
-    // Mascot celebration
     if (percentOverall >= 70) {
       this.mascot.say(MASCOT_QUOTES.goodJob);
     } else {
       this.mascot.say(MASCOT_QUOTES.needMorePractice);
     }
+  }
+
+  renderServerResultsDashboard(serverGraded, isTimeout) {
+    if (this.quizPlayBox) this.quizPlayBox.style.display = 'none';
+    if (!this.resultsDashboard) return;
+
+    this.resultsDashboard.classList.add('active');
+    this.resultsDashboard.style.display = 'block';
+    this.resultsDashboard.scrollIntoView({ behavior: 'smooth', block: 'start' });
+
+    const totalCorrect = serverGraded.correct_answers;
+    const totalQuestions = serverGraded.total_questions;
+    const percentOverall = Math.round(serverGraded.score_percentage);
+
+    const reviews = serverGraded.reviews || [];
+    const letters = ['A', 'B', 'C', 'D'];
+
+    const reviewItemsHtml = reviews.map((r, idx) => {
+      const isCorrect = r.is_correct;
+      const userChoice = r.selected_index;
+      const correctChoice = r.correct_index;
+
+      return `
+        <div class="card" style="margin-bottom:16px; border-left: 6px solid ${isCorrect ? 'var(--ok)' : 'var(--acc)'};">
+          <div class="row" style="justify-content:space-between; margin-bottom:8px;">
+            <span class="chip ${isCorrect ? 'g' : 'a'}">Câu ${idx + 1}: ${isCorrect ? 'Đúng' : 'Chưa đúng'}</span>
+            <span style="font-size:13px; font-weight:800; color:var(--mut);">${escapeHtml(r.category_id || '')}</span>
+          </div>
+          <p style="font-weight:800; font-size:16px; margin: 8px 0 12px; color:var(--ink);">${escapeHtml(r.question_text)}</p>
+          
+          <div style="font-size:14px; margin-bottom:12px;">
+            <div><b>Bạn chọn:</b> ${userChoice >= 0 && r.options[userChoice] ? `${letters[userChoice]}. ${escapeHtml(r.options[userChoice])}` : '<span style="color:var(--acc)">Chưa trả lời</span>'}</div>
+            <div><b>Đáp án chính xác:</b> <span style="color:var(--ok); font-weight:800;">${letters[correctChoice]}. ${escapeHtml(r.options[correctChoice] || '')}</span></div>
+          </div>
+
+          <div class="toast toast-info" style="font-size:13.5px; margin-top:8px;">
+            <div>
+              <b>Phân tích bản chất:</b> ${escapeHtml(r.explanation)}<br>
+              <span style="color:var(--pri); font-weight:700;">${escapeHtml(r.tip || '')}</span>
+            </div>
+          </div>
+        </div>
+      `;
+    }).join('');
+
+    this.renderDashboardTemplate(totalCorrect, totalQuestions, percentOverall, reviewItemsHtml, isTimeout);
   }
 
   renderResultsDashboard(totalCorrect, totalQuestions, percentOverall, categoryStats, isTimeout) {
@@ -340,59 +418,40 @@ export class QuizController {
 
     this.resultsDashboard.classList.add('active');
     this.resultsDashboard.style.display = 'block';
-
-    // Scroll to dashboard smoothly
     this.resultsDashboard.scrollIntoView({ behavior: 'smooth', block: 'start' });
 
-    // Compute rings %
-    const numPercent = categoryStats.numerical.total > 0 
-      ? Math.round((categoryStats.numerical.correct / categoryStats.numerical.total) * 100) 
-      : 82; // Fallback demo
-    const logPercent = categoryStats.logical.total > 0 
-      ? Math.round((categoryStats.logical.correct / categoryStats.logical.total) * 100) 
-      : 64;
-    const verPercent = categoryStats.verbal.total > 0 
-      ? Math.round((categoryStats.verbal.correct / categoryStats.verbal.total) * 100) 
-      : 41;
-
-    // Badges based on score
-    const numStatus = numPercent >= 75 ? 'Rất tốt' : (numPercent >= 50 ? 'Khá' : 'Cần luyện thêm');
-    const logStatus = logPercent >= 75 ? 'Rất tốt' : (logPercent >= 50 ? 'Khá' : 'Cần luyện thêm');
-    const verStatus = verPercent >= 75 ? 'Rất tốt' : (verPercent >= 50 ? 'Khá' : 'Cần luyện thêm');
-
-    const numColor = numPercent >= 75 ? 'var(--ok)' : (numPercent >= 50 ? 'var(--pri)' : 'var(--acc)');
-    const logColor = logPercent >= 75 ? 'var(--ok)' : (logPercent >= 50 ? 'var(--pri)' : 'var(--acc)');
-    const verColor = verPercent >= 75 ? 'var(--ok)' : (verPercent >= 50 ? 'var(--pri)' : 'var(--acc)');
-
-    // Build Detailed Review Items
+    const letters = ['A', 'B', 'C', 'D'];
     const reviewItemsHtml = this.activeQuestions.map((q, idx) => {
       const userChoice = this.userAnswers[q.id];
       const isCorrect = userChoice === q.correctIndex;
-      const letters = ['A', 'B', 'C', 'D'];
 
       return `
         <div class="card" style="margin-bottom:16px; border-left: 6px solid ${isCorrect ? 'var(--ok)' : 'var(--acc)'};">
           <div class="row" style="justify-content:space-between; margin-bottom:8px;">
             <span class="chip ${isCorrect ? 'g' : 'a'}">Câu ${idx + 1}: ${isCorrect ? 'Đúng' : 'Chưa đúng'}</span>
-            <span style="font-size:13px; font-weight:800; color:var(--mut);">${q.categoryName}</span>
+            <span style="font-size:13px; font-weight:800; color:var(--mut);">${escapeHtml(q.categoryName || '')}</span>
           </div>
-          <p style="font-weight:800; font-size:16px; margin: 8px 0 12px; color:var(--ink);">${q.question}</p>
+          <p style="font-weight:800; font-size:16px; margin: 8px 0 12px; color:var(--ink);">${escapeHtml(q.question)}</p>
           
           <div style="font-size:14px; margin-bottom:12px;">
-            <div><b>Bạn chọn:</b> ${userChoice !== undefined ? `${letters[userChoice]}. ${q.options[userChoice]}` : '<span style="color:var(--acc)">Chưa trả lời</span>'}</div>
-            <div><b>Đáp án chính xác:</b> <span style="color:var(--ok); font-weight:800;">${letters[q.correctIndex]}. ${q.options[q.correctIndex]}</span></div>
+            <div><b>Bạn chọn:</b> ${userChoice !== undefined ? `${letters[userChoice]}. ${escapeHtml(q.options[userChoice])}` : '<span style="color:var(--acc)">Chưa trả lời</span>'}</div>
+            <div><b>Đáp án chính xác:</b> <span style="color:var(--ok); font-weight:800;">${letters[q.correctIndex]}. ${escapeHtml(q.options[q.correctIndex])}</span></div>
           </div>
 
           <div class="toast toast-info" style="font-size:13.5px; margin-top:8px;">
             <div>
-              <b>Phân tích bản chất:</b> ${q.explanation}<br>
-              <span style="color:var(--pri); font-weight:700;">${q.tip}</span>
+              <b>Phân tích bản chất:</b> ${escapeHtml(q.explanation)}<br>
+              <span style="color:var(--pri); font-weight:700;">${escapeHtml(q.tip || '')}</span>
             </div>
           </div>
         </div>
       `;
     }).join('');
 
+    this.renderDashboardTemplate(totalCorrect, totalQuestions, percentOverall, reviewItemsHtml, isTimeout);
+  }
+
+  renderDashboardTemplate(totalCorrect, totalQuestions, percentOverall, reviewItemsHtml, isTimeout) {
     this.resultsDashboard.innerHTML = `
       <div class="results-celebrate-card">
         <span class="chip g" style="font-size:14px; padding:6px 18px; margin-bottom:14px;">
@@ -417,97 +476,6 @@ export class QuizController {
         </div>
       </div>
 
-      <!-- 3 Vòng tròn kết quả chuẩn Brand Identity -->
-      <h3 style="font-size:22px; font-weight:900; margin:0 0 6px; text-align:center;">Phân Tích Năng Lực Theo Từng Nhóm Kỹ Năng</h3>
-      <p style="text-align:center; color:var(--mut); font-weight:600; font-size:14px; margin:0 0 24px;">
-        Đánh giá trực quan mức độ thuần thục của bạn đối với 3 trụ cột đề thi Management Trainee
-      </p>
-
-      <div class="results-grid-summary">
-        <div class="card card-hover" style="text-align:center;">
-          <div class="ring" style="--p:${numPercent}; --c:${numColor};">
-            <span>${numPercent}%</span>
-          </div>
-          <div class="ctr">
-            Số học & Số liệu
-            <small style="color:${numColor}; font-weight:800;">${numStatus}</small>
-          </div>
-        </div>
-
-        <div class="card card-hover" style="text-align:center;">
-          <div class="ring" style="--p:${logPercent}; --c:${logColor};">
-            <span>${logPercent}%</span>
-          </div>
-          <div class="ctr">
-            Tư duy Suy luận Logic
-            <small style="color:${logColor}; font-weight:800;">${logStatus}</small>
-          </div>
-        </div>
-
-        <div class="card card-hover" style="text-align:center;">
-          <div class="ring" style="--p:${verPercent}; --c:${verColor};">
-            <span>${verPercent}%</span>
-          </div>
-          <div class="ctr">
-            Đọc hiểu Ngôn ngữ
-            <small style="color:${verColor}; font-weight:800;">${verStatus}</small>
-          </div>
-        </div>
-      </div>
-
-      <!-- Biểu đồ & Thanh tiến độ -->
-      <div class="grid g-2" style="margin-bottom:32px;">
-        <div class="card">
-          <div class="row" style="justify-content:space-between; margin-bottom:14px;">
-            <b>Xu hướng điểm số theo tuần</b>
-            <span class="chip">Tuần 1 - Tuần 5</span>
-          </div>
-          <svg viewBox="0 0 320 170" width="100%" aria-label="Biểu đồ tiến độ">
-            <g stroke="var(--line)">
-              <line x1="30" y1="20" x2="310" y2="20" stroke-dasharray="4"/>
-              <line x1="30" y1="60" x2="310" y2="60" stroke-dasharray="4"/>
-              <line x1="30" y1="100" x2="310" y2="100" stroke-dasharray="4"/>
-              <line x1="30" y1="140" x2="310" y2="140"/>
-            </g>
-            <g fill="var(--mut)" font-size="11" font-family="Nunito">
-              <text x="40" y="160">T1</text>
-              <text x="100" y="160">T2</text>
-              <text x="160" y="160">T3</text>
-              <text x="220" y="160">T4</text>
-              <text x="280" y="160">T5</text>
-            </g>
-            <polyline points="48,120 108,100 168,84 228,52 288,36" fill="none" stroke="var(--acc)" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
-            <g fill="var(--card)" stroke="var(--acc)" stroke-width="3">
-              <circle cx="48" cy="120" r="5"/>
-              <circle cx="108" cy="100" r="5"/>
-              <circle cx="168" cy="84" r="5"/>
-              <circle cx="228" cy="52" r="5"/>
-              <circle cx="288" cy="36" r="5"/>
-            </g>
-          </svg>
-        </div>
-
-        <div class="card">
-          <div class="row" style="justify-content:space-between; margin-bottom:14px;">
-            <b>Phân bổ câu đúng theo dạng bài</b>
-            <span class="chip a">Thực chiến</span>
-          </div>
-          <svg viewBox="0 0 320 170" width="100%" aria-label="Biểu đồ cột">
-            <line x1="30" y1="140" x2="310" y2="140" stroke="var(--line)"/>
-            <rect x="50" y="${140 - (numPercent * 0.9)}" width="38" height="${numPercent * 0.9}" rx="8" fill="var(--pri)"/>
-            <rect x="110" y="${140 - (logPercent * 0.9)}" width="38" height="${logPercent * 0.9}" rx="8" fill="var(--pri)"/>
-            <rect x="170" y="${140 - (verPercent * 0.9)}" width="38" height="${verPercent * 0.9}" rx="8" fill="var(--acc)"/>
-            <rect x="230" y="60" width="38" height="80" rx="8" fill="var(--pri)"/>
-            <g fill="var(--mut)" font-size="11" font-family="Nunito" text-anchor="middle">
-              <text x="69" y="158">Số</text>
-              <text x="129" y="158">Logic</text>
-              <text x="189" y="158">Đọc</text>
-              <text x="249" y="158">Hình</text>
-            </g>
-          </svg>
-        </div>
-      </div>
-
       <!-- Danh sách lời giải chi tiết -->
       <h3 style="font-size:22px; font-weight:900; margin:0 0 16px;">Chi Tiết Từng Câu Hỏi & Lời Giải Bản Chất</h3>
       <div class="review-questions-list">
@@ -517,13 +485,11 @@ export class QuizController {
 
     const restartBtn = document.getElementById('btn-restart-dashboard');
     if (restartBtn) {
-      restartBtn.addEventListener('click', () => this.retakeQuiz());
+      restartBtn.addEventListener('click', () => {
+        this.sound.playPop();
+        this.startQuiz();
+      });
     }
-  }
-
-  retakeQuiz() {
-    this.sound.playPop();
-    this.startQuiz();
   }
 
   saveTestHistory(record) {
@@ -554,11 +520,11 @@ export class QuizController {
     const history = this.getTestHistory();
     this.historyTableBody.innerHTML = history.map(item => `
       <tr>
-        <td><b>${item.testName}</b></td>
-        <td>${item.date}</td>
-        <td><span style="font-weight:800; color:var(--pri);">${item.score}</span></td>
-        <td>${item.time}</td>
-        <td><span class="chip ${item.statusClass}">${item.status}</span></td>
+        <td><b>${escapeHtml(item.testName)}</b></td>
+        <td>${escapeHtml(item.date)}</td>
+        <td><span style="font-weight:800; color:var(--pri);">${escapeHtml(item.score)}</span></td>
+        <td>${escapeHtml(item.time)}</td>
+        <td><span class="chip ${escapeHtml(item.statusClass || '')}">${escapeHtml(item.status)}</span></td>
       </tr>
     `).join('');
   }
